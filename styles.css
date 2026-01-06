@@ -1,0 +1,445 @@
+:root {
+    /* HEAVEN Brand Colors - Gold & Black */
+    --gold-primary: #D4AF37;
+    --gold-light: #E8C547;
+    --gold-dark: #B8941F;
+    --gold-gradient: linear-gradient(135deg, #E8C547 0%, #D4AF37 50%, #B8941F 100%);
+
+    --black-primary: #1a1a1a;
+    --black-secondary: #0a0a0a;
+    --black-tertiary: #2a2a2a;
+
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #D4AF37;
+    --text-muted: #8a8a8a;
+
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--black-secondary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Top Bar */
+.top-bar {
+    background-color: #111111;
+    /* Very dark/black color */
+    padding: 0.5rem 2rem;
+    /* border-bottom removed */
+}
+
+.top-bar .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    /* Align to right like the reference image */
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icons a {
+    color: #87CEFA;
+    /* Light Sky Blue */
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: white;
+}
+
+/* ... (omitted) ... */
+
+/* Header & Nav */
+header {
+    background-color: #222222;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* border-bottom removed */
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.logo span {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--gold-primary);
+}
+
+.nav-icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-icons a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.nav-icons a:hover {
+    color: var(--gold-primary);
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 720px;
+    margin: 0;
+    margin-top: -2px;
+    /* Pull up to cover header gap */
+    border-radius: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    overflow: hidden;
+    background: #000;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    background-size: cover;
+    /* Fills full area */
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-slide.active {
+    opacity: 1;
+}
+
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: var(--gold-primary);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.btn-hero {
+    padding: 1rem 2.5rem;
+    background: var(--gold-gradient);
+    color: var(--black-secondary);
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-hero:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Features Section */
+.features {
+    padding: 4rem 2rem;
+    background-color: #121212;
+    margin-top: -2px;
+    /* Pull up to cover any banner gap */
+    position: relative;
+    z-index: 1;
+}
+
+.features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.feature-item {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--gold-primary);
+    border-radius: 50%;
+    color: var(--gold-primary);
+    font-size: 1.5rem;
+}
+
+.feature-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.feature-item p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Products Preview */
+.products-preview {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--gold-primary);
+    margin-bottom: 1rem;
+}
+
+.product-grid {
+    display: grid;
+    /* Force 4 columns on desktop */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    /* Limit width to keep them reasonable size */
+    margin: 0 auto;
+}
+
+/* Responsive: 2 columns on tablets, 1 on mobile */
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.product-card {
+    background: var(--black-tertiary);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Ensure cards in same row match height if desired, or auto for masonry-ish */
+}
+
+.product-card:hover {
+    border-color: var(--gold-primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.product-image {
+    width: 100%;
+    background: #222;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+    /* Adapts to image aspect ratio */
+    display: block;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 1rem;
+    text-align: center;
+    background: var(--bg-card);
+    /* Ensure contrast */
+    z-index: 1;
+}
+
+.product-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    color: var(--gold-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+    background: var(--black-tertiary);
+    padding: 4rem 2rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-col h4 {
+    color: var(--gold-primary);
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-col ul li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-col ul li a:hover {
+    color: var(--gold-primary);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    color: var(--gold-primary);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}

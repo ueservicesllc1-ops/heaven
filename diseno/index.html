@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAVEN | Panel de Diseño</title>
+    <link rel="stylesheet" href="../gestion/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            padding: 2rem;
+            background: var(--bg-primary);
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .banner-item {
+            background: var(--bg-card);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .banner-img {
+            width: 150px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .banner-info {
+            flex: 1;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gold-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        /* Tabs Styles */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #333;
+            flex-wrap: wrap;
+            /* Safety for mobile */
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #aaa;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: white;
+        }
+
+        .tab-btn.active {
+            color: var(--gold-primary);
+            border-bottom-color: var(--gold-primary);
+        }
+
+        /* Product Card in Admin */
+        .admin-product-card {
+            background: #222;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+
+        .admin-product-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/gestion/index.html" class="back-link"><i data-lucide="arrow-left"></i> Volver al Dashboard</a>
+
+        <header style="margin-bottom: 1rem; border-bottom: 1px solid var(--gold-primary); padding-bottom: 1rem;">
+            <h1 style="color: var(--gold-primary); font-family: 'Playfair Display', serif;">Gestión de Diseño</h1>
+            <p style="color: var(--text-secondary);">Personaliza la apariencia y datos de tu sitio web</p>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('banners')">
+                <i data-lucide="image"></i> Banners
+            </button>
+            <button class="tab-btn" onclick="openTab('products')">
+                <i data-lucide="shopping-bag"></i> Productos
+            </button>
+            <button class="tab-btn" onclick="openTab('info')">
+                <i data-lucide="info"></i> Información
+            </button>
+            <button class="tab-btn" onclick="openTab('social')">
+                <i data-lucide="share-2"></i> Redes Sociales
+            </button>
+        </div>
+
+        <!-- BANNERS TAB -->
+        <div id="tab-banners" class="tab-content active">
+            <section class="add-banner"
+                style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <h3>Agregar Nuevo Banner</h3>
+                <form id="addBannerForm" style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <div class="form-group">
+                        <label>Imagen del Banner</label>
+                        <div style="border: 2px dashed #555; padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;"
+                            onclick="document.getElementById('bannerFile').click()">
+                            <i data-lucide="upload-cloud"
+                                style="width: 48px; height: 48px; color: var(--gold-primary); margin-bottom: 0.5rem;"></i>
+                            <p style="color: #aaa;" id="fileInputLabel">Seleccionar Archivo</p>
+                            <input type="file" id="bannerFile" accept="image/*" style="display: none;">
+                        </div>
+                        <img id="previewImg" src="" alt="Vista Previa"
+                            style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-top: 1rem; display: none; border: 1px solid var(--gold-primary);">
+                    </div>
+                    <!-- Title & Subtitle -->
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" id="bannerTitle" placeholder="Ej: Taste the Heaven"
+                                style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                        </div>
+                        <div class="form-group">
+                            <label>Subtítulo</label>
+                            <input type="text" id="bannerSubtitle" placeholder="Ej: Premium Coffee..."
+                                style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                        </div>
+                    </div>
+
+                    <!-- Button Actions -->
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Texto del Botón</label>
+                            <input type="text" id="btnText" placeholder="Ej: Comprar Ahora"
+                                style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace del Botón</label>
+                            <input type="text" id="btnLink" placeholder="Ej: #products"
+                                style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alineación del Texto (En la web)</label>
+                        <select id="textAlignment"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                            <option value="center">Centro</option>
+                            <option value="left" selected>Izquierda</option>
+                            <option value="right">Derecha</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="justify-self: start;">Guardar Banner</button>
+                </form>
+            </section>
+
+            <section id="bannersList">
+                <!-- Loading... -->
+                <p>Cargando banners...</p>
+            </section>
+        </div> <!-- End Banners Tab -->
+
+        <!-- PRODUCTS TAB -->
+        <div id="tab-products" class="tab-content" style="display: none;">
+            <section style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <h3>Gestionar Producto</h3>
+                <form id="addProductForm" style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <div class="form-group">
+                        <label>Imagen del Producto</label>
+                        <div style="border: 2px dashed #555; padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;"
+                            onclick="document.getElementById('productFile').click()">
+                            <i data-lucide="upload-cloud"
+                                style="width: 48px; height: 48px; color: var(--gold-primary); margin-bottom: 0.5rem;"></i>
+                            <p style="color: #aaa;" id="productFileLabel">Seleccionar Archivo (Opcional si editas)</p>
+                            <input type="file" id="productFile" accept="image/*" style="display: none;">
+                        </div>
+                        <img id="productPreviewImg" src="" alt="Vista Previa"
+                            style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin-top: 1rem; display: none; border: 1px solid var(--gold-primary);">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del Producto</label>
+                        <input type="text" id="productTitle" placeholder="Ej: Heaven Signature"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <input type="text" id="productPrice" placeholder="Ej: $24.00"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn btn-primary" style="justify-self: start;">Guardar
+                            Producto</button>
+                        <button type="button" id="cancelEditProduct" onclick="cancelEditProduct()" class="btn"
+                            style="background: #444; color: white; display: none;">Cancelar Edición</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="productsList"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                <!-- Product Items -->
+                <p>Cargando productos...</p>
+            </section>
+        </div>
+
+
+        <!-- INFO TAB -->
+        <div id="tab-info" class="tab-content" style="display: none;">
+            <section style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                <h3>Información de Contacto</h3>
+                <form id="infoForm" style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" id="infoAddress" placeholder="Ej: Paterson, New Jersey"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="infoPhone" placeholder="Ej: +1 551 301 4573"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="infoEmail" placeholder="Ej: info@heavencoffeeus.com"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Horario</label>
+                        <input type="text" id="infoHours" placeholder="Ej: Mon-Fri: 9am - 8pm"
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="justify-self: start;">Guardar
+                        Información</button>
+                </form>
+            </section>
+        </div>
+
+        <!-- SOCIAL TAB -->
+        <div id="tab-social" class="tab-content" style="display: none;">
+            <section style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                <h3>Redes Sociales</h3>
+                <form id="socialForm" style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <p style="font-size: 0.9rem; color: #aaa;">Deja el campo vacío para ocultar el ícono.</p>
+                    <div class="form-group">
+                        <label><i data-lucide="facebook"></i> Facebook (URL)</label>
+                        <input type="url" id="socialFacebook" placeholder="https://facebook.com/..."
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="instagram"></i> Instagram (URL)</label>
+                        <input type="url" id="socialInstagram" placeholder="https://instagram.com/..."
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="twitter"></i> Twitter/X (URL)</label>
+                        <input type="url" id="socialTwitter" placeholder="https://twitter.com/..."
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="youtube"></i> Youtube (URL)</label>
+                        <input type="url" id="socialYoutube" placeholder="https://youtube.com/..."
+                            style="width: 100%; padding: 0.5rem; background: #333; border: 1px solid #555; color: white;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="justify-self: start;">Guardar Redes</button>
+                </form>
+            </section>
+        </div>
+    </div> <!-- End Container -->
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDcQw9fbueQ2MRoO5thpfN3N_Pk4yaYmYM",
+            authDomain: "heaven-99e7b.firebaseapp.com",
+            projectId: "heaven-99e7b",
+            storageBucket: "heaven-99e7b.firebasestorage.app",
+            messagingSenderId: "762982225526",
+            appId: "1:762982225526:web:eb1426623d1227bca0f157",
+            measurementId: "G-Y9PTN2NLS6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Global Tabs Function
+        window.openTab = (tabName) => {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).style.display = 'block';
+
+            const btns = document.querySelectorAll('.tab-btn');
+            // 0: Banners, 1: Products, 2: Info, 3: Social
+            if (tabName === 'banners') btns[0].classList.add('active');
+            if (tabName === 'products') btns[1].classList.add('active');
+            if (tabName === 'info') btns[2].classList.add('active');
+            if (tabName === 'social') btns[3].classList.add('active');
+        };
+
+        // Auth Check
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = '/gestion/index.html';
+                return;
+            }
+            // Check Permissions
+            const qPermissions = query(collection(db, 'settings'), where('type', '==', 'permissions'));
+            const snap = await getDocs(qPermissions);
+            let authorized = false;
+            if (!snap.empty) {
+                const emails = snap.docs[0].data().authorizedEmails || [];
+                if (emails.includes(user.email) || user.email === 'ueservicesllc1@gmail.com') {
+                    authorized = true;
+                }
+            } else if (user.email === 'ueservicesllc1@gmail.com') {
+                authorized = true;
+            }
+
+            if (!authorized) {
+                alert('No tienes permiso para acceder a esta área.');
+                window.location.href = '/gestion/index.html';
+                return;
+            }
+
+            // Load Data
+            loadBanners();
+            loadProducts();
+            loadInfo();
+            loadSocial();
+        });
+
+        // --- BANNERS LOGIC ---
+        async function loadBanners() {
+            const list = document.getElementById('bannersList');
+            try {
+                const q = query(collection(db, 'banners'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    list.innerHTML = '<p>No hay banners activos.</p>';
+                    return;
+                }
+
+                list.innerHTML = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return `
+                    <div class="banner-item">
+                        <img src="${data.imageUrl}" class="banner-img" alt="Banner">
+                        <div class="banner-info">
+                            <h4>${data.title || 'Sin Título'}</h4>
+                            <p style="font-size:0.9rem; color:#ccc;">${data.subtitle || ''}</p>
+                            <p style="font-size:0.8rem; color:#aaa; margin-top:0.2rem;">Botón: ${data.btnText || 'N/A'} -> ${data.btnLink || '#'}</p>
+                        </div>
+                        <button onclick="deleteBanner('${doc.id}')" class="btn btn-danger" style="padding: 0.5rem;">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>
+                `;
+                }).join('');
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Error loading banners:", error);
+                list.innerHTML = '<p>Error cargando banners.</p>';
+            }
+        }
+
+        window.deleteBanner = async (id) => {
+            if (confirm('¿Eliminar banner?')) {
+                await deleteDoc(doc(db, 'banners', id));
+                loadBanners();
+            }
+        };
+
+        // Banners File Preview
+        const fileInput = document.getElementById('bannerFile');
+        const previewImg = document.getElementById('previewImg');
+        const fileInputLabel = document.getElementById('fileInputLabel');
+
+        if (fileInput) {
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                        fileInputLabel.textContent = file.name;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        document.getElementById('addBannerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('bannerFile').files[0];
+            const title = document.getElementById('bannerTitle').value;
+            const subtitle = document.getElementById('bannerSubtitle').value;
+            const btnText = document.getElementById('btnText').value;
+            const btnLink = document.getElementById('btnLink').value;
+            const alignment = document.getElementById('textAlignment').value;
+            const submitBtn = document.querySelector('#addBannerForm button[type="submit"]');
+
+            if (!file) {
+                alert('Por favor selecciona una imagen');
+                return;
+            }
+
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Subiendo...';
+
+                // 1. Upload to Storage
+                const storageRef = ref(storage, 'banners/' + Date.now() + '_' + file.name);
+                await uploadBytes(storageRef, file);
+
+                // 2. Get URL
+                const url = await getDownloadURL(storageRef);
+
+                // 3. Save to Firestore
+                await addDoc(collection(db, 'banners'), {
+                    imageUrl: url,
+                    title: title,
+                    subtitle: subtitle,
+                    btnText: btnText,
+                    btnLink: btnLink,
+                    alignment: alignment,
+                    createdAt: serverTimestamp(),
+                    active: true
+                });
+
+                document.getElementById('addBannerForm').reset();
+                previewImg.style.display = 'none';
+                fileInputLabel.textContent = 'Seleccionar Archivo';
+                loadBanners();
+                alert('Banner guardado correctamente');
+            } catch (error) {
+                console.error("Error uploading banner:", error);
+                alert('Error al guardar el banner: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Guardar Banner';
+            }
+        });
+
+        // --- PRODUCTS LOGIC ---
+        let editingProductId = null;
+
+        window.editProduct = (id, title, price, imageUrl) => {
+            editingProductId = id;
+            document.getElementById('productTitle').value = title;
+            document.getElementById('productPrice').value = price;
+            // Preview
+            const preview = document.getElementById('productPreviewImg');
+            preview.src = imageUrl;
+            preview.style.display = 'block';
+
+            document.querySelector('#addProductForm button[type="submit"]').textContent = 'Actualizar Producto';
+            document.getElementById('cancelEditProduct').style.display = 'inline-block';
+
+            document.getElementById('tab-products').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.cancelEditProduct = () => {
+            editingProductId = null;
+            document.getElementById('addProductForm').reset();
+            document.getElementById('productPreviewImg').style.display = 'none';
+            document.querySelector('#addProductForm button[type="submit"]').textContent = 'Guardar Producto';
+            document.getElementById('cancelEditProduct').style.display = 'none';
+        };
+
+        async function loadProducts() {
+            const list = document.getElementById('productsList');
+            try {
+                const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    list.innerHTML = '<p>No hay productos.</p>';
+                    return;
+                }
+
+                list.innerHTML = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    // Escaping quotes for onclick
+                    const safeTitle = (data.title || '').replace(/'/g, "\\'");
+                    const safePrice = (data.price || '').replace(/'/g, "\\'");
+                    const safeUrl = (data.imageUrl || '').replace(/'/g, "\\'");
+
+                    return `
+                    <div class="admin-product-card">
+                        <img src="${data.imageUrl}" class="admin-product-img">
+                        <h4 style="margin: 0.5rem 0;">${data.title}</h4>
+                        <p style="color: var(--gold-primary);">${data.price}</p>
+                        
+                        <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;">
+                            <button onclick="editProduct('${doc.id}', '${safeTitle}', '${safePrice}', '${safeUrl}')" class="btn btn-primary" style="padding: 0.5rem; flex:1;">
+                                <i data-lucide="edit-3"></i> Editar
+                            </button>
+                            <button onclick="deleteProduct('${doc.id}')" class="btn btn-danger" style="padding: 0.5rem; flex:1;">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Error loading products:", error);
+                list.innerHTML = '<p>Error cargando productos.</p>';
+            }
+        }
+
+        window.deleteProduct = async (id) => {
+            if (confirm('¿Eliminar producto?')) {
+                await deleteDoc(doc(db, 'products', id));
+                loadProducts();
+            }
+        }
+
+        // Product File Preview
+        const pFileInput = document.getElementById('productFile');
+        const pPreviewImg = document.getElementById('productPreviewImg');
+        const pFileInputLabel = document.getElementById('productFileLabel');
+
+        if (pFileInput) {
+            pFileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        pPreviewImg.src = e.target.result;
+                        pPreviewImg.style.display = 'block';
+                        pFileInputLabel.textContent = file.name;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('productFile').files[0];
+            const title = document.getElementById('productTitle').value;
+            const price = document.getElementById('productPrice').value;
+            const submitBtn = document.querySelector('#addProductForm button[type="submit"]');
+
+            // Validation
+            if (!editingProductId && !file) { alert('Selecciona una imagen'); return; }
+            if (!title) { alert('Ingresa un nombre'); return; }
+
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = processingStr(editingProductId); // Dynamic text
+
+                let url = null;
+                // Upload image if selected
+                if (file) {
+                    const storageRef = ref(storage, 'products/' + Date.now() + '_' + file.name);
+                    await uploadBytes(storageRef, file);
+                    url = await getDownloadURL(storageRef);
+                } else if (editingProductId) {
+                    // Keep existing URL if editing and no new file (Handled logic below actually needs separate query or passed URL... 
+                    // Simpler: we already set src in preview. We can grab src from preview if url is null?)
+                    // Or rely on updateDoc not overwriting if field missing.
+                    // But standard update payload construction needed.
+                }
+
+                if (editingProductId) {
+                    // UPDATE
+                    const updatePayload = { title, price };
+                    if (url) updatePayload.imageUrl = url;
+
+                    await updateDoc(doc(db, 'products', editingProductId), updatePayload);
+                    alert('Producto actualizado');
+                } else {
+                    // CREATE
+                    await addDoc(collection(db, 'products'), {
+                        imageUrl: url,
+                        title: title,
+                        price: price,
+                        createdAt: serverTimestamp()
+                    });
+                    alert('Producto creado');
+                }
+
+                cancelEditProduct(); // Reset form and mode
+                loadProducts();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = editingProductId ? 'Actualizar Producto' : 'Guardar Producto';
+            }
+        });
+
+        function processingStr(isEdit) {
+            return isEdit ? 'Actualizando...' : 'Guardando...';
+        }
+
+        // --- INFO LOGIC ---
+        async function loadInfo() {
+            try {
+                const q = query(collection(db, 'config'), where('type', '==', 'contact_info'));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                    const data = snap.docs[0].data();
+                    document.getElementById('infoAddress').value = data.address || '';
+                    document.getElementById('infoPhone').value = data.phone || '';
+                    document.getElementById('infoEmail').value = data.email || '';
+                    document.getElementById('infoHours').value = data.hours || '';
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        document.getElementById('infoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const address = document.getElementById('infoAddress').value;
+            const phone = document.getElementById('infoPhone').value;
+            const email = document.getElementById('infoEmail').value;
+            const hours = document.getElementById('infoHours').value;
+            const btn = e.target.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Guardando...';
+
+                const q = query(collection(db, 'config'), where('type', '==', 'contact_info'));
+                const snap = await getDocs(q);
+
+                if (!snap.empty) {
+                    const docId = snap.docs[0].id;
+                    await updateDoc(doc(db, 'config', docId), { address, phone, email, hours });
+                } else {
+                    await addDoc(collection(db, 'config'), { type: 'contact_info', address, phone, email, hours });
+                }
+                alert('Información guardada');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Guardar Información';
+            }
+        });
+
+        // --- SOCIAL LOGIC ---
+        async function loadSocial() {
+            try {
+                const q = query(collection(db, 'config'), where('type', '==', 'social_links'));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                    const data = snap.docs[0].data();
+                    document.getElementById('socialFacebook').value = data.facebook || '';
+                    document.getElementById('socialInstagram').value = data.instagram || '';
+                    document.getElementById('socialTwitter').value = data.twitter || '';
+                    document.getElementById('socialYoutube').value = data.youtube || '';
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        document.getElementById('socialForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const facebook = document.getElementById('socialFacebook').value;
+            const instagram = document.getElementById('socialInstagram').value;
+            const twitter = document.getElementById('socialTwitter').value;
+            const youtube = document.getElementById('socialYoutube').value;
+            const btn = e.target.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Guardando...';
+
+                const q = query(collection(db, 'config'), where('type', '==', 'social_links'));
+                const snap = await getDocs(q);
+
+                if (!snap.empty) {
+                    const docId = snap.docs[0].id;
+                    await updateDoc(doc(db, 'config', docId), { facebook, instagram, twitter, youtube });
+                } else {
+                    await addDoc(collection(db, 'config'), { type: 'social_links', facebook, instagram, twitter, youtube });
+                }
+                alert('Redes Sociales guardadas');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Guardar Redes';
+            }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // BANNERS: Todo el mundo puede verlos, solo usuarios autenticados pueden editar
+    match /banners/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // PRODUCTOS: Todo el mundo puede verlos, solo usuarios autenticados pueden editar
+    match /products/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // CONFIGURACIÓN (Info y Redes): Todo el mundo puede verla, solo usuarios autenticados pueden editar
+    match /config/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // SETTINGS (Permisos): Solo usuarios autenticados
+    match /settings/{document} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Regla por defecto para cualquier otra cosa: Solo autenticados
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

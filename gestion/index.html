@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAVEN - Sistema de Gestión de Café</title>
+    <meta name="description" content="Sistema completo de gestión para HEAVEN - Café en Cápsulas Premium">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-logo">
+                <img src="logo.png" alt="HEAVEN Highland Coffee"
+                    style="width: 200px; height: auto; margin-bottom: 20px;">
+            </div>
+            <div class="login-card">
+                <h2>Bienvenido</h2>
+                <p class="login-subtitle">Inicia sesión para gestionar tu negocio</p>
+                <button class="btn-google" onclick="signInWithGoogle()">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#4285F4"
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853"
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05"
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335"
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                    <span>Continuar con Google</span>
+                </button>
+                <p class="login-info">Tus datos están seguros y protegidos con Firebase</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div id="appContainer" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="logo.png" alt="HEAVEN" style="width: 120px; height: auto;">
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="" alt="User" class="user-photo">
+                    </div>
+                    <div class="user-info-sidebar">
+                        <p class="user-name">Usuario</p>
+                        <p class="user-email">email@example.com</p>
+                    </div>
+                    <button class="btn-logout" onclick="signOutUser()" title="Cerrar sesión">
+                        <i data-lucide="log-out" class="icon-btn"></i>
+                    </button>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="dashboard">
+                    <i data-lucide="layout-dashboard" class="icon"></i>
+                    <span class="label">Dashboard</span>
+                </li>
+                <li class="nav-item" data-view="costs">
+                    <i data-lucide="calculator" class="icon"></i>
+                    <span class="label">Calculadora de Costos</span>
+                </li>
+                <li class="nav-item" data-view="sales">
+                    <i data-lucide="trending-up" class="icon"></i>
+                    <span class="label">Análisis de Ventas</span>
+                </li>
+                <li class="nav-item" data-view="clients">
+                    <i data-lucide="users" class="icon"></i>
+                    <span class="label">Clientes</span>
+                </li>
+                <li class="nav-item" data-view="pos">
+                    <i data-lucide="receipt" class="icon"></i>
+                    <span class="label">Punto de Venta</span>
+                </li>
+                <li class="nav-item" data-view="orders">
+                    <i data-lucide="package" class="icon"></i>
+                    <span class="label">Gestión de Órdenes</span>
+                </li>
+                <li class="nav-item" data-view="settings">
+                    <i data-lucide="settings" class="icon"></i>
+                    <span class="label">Configuración</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar for Extra Icons -->
+            <div class="dashboard-top-bar" style="position: absolute; top: 1rem; right: 2rem; z-index: 100;">
+                <a href="/diseno/index.html" id="designLinkIcon"
+                    style="display: none; color: white; background: #333; padding: 10px; border-radius: 5px;"
+                    title="Panel de Diseño">
+                    <i data-lucide="grid" style="width: 24px; height: 24px;"></i>
+                </a>
+            </div>
+
+            <!-- Dashboard View -->
+            <div id="dashboard" class="view active">
+                <header class="view-header">
+                    <h2>Dashboard</h2>
+                    <p class="subtitle">Vista general de tu negocio</p>
+                </header>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--gold-gradient);">
+                            <i data-lucide="dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Ventas Hoy</p>
+                            <h3 class="stat-value" id="todaySales">$0.00</h3>
+                            <span class="stat-change positive">+12.5%</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i data-lucide="package"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Órdenes Pendientes</p>
+                            <h3 class="stat-value" id="pendingOrders">0</h3>
+                            <span class="stat-change">En proceso</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Clientes Activos</p>
+                            <h3 class="stat-value" id="activeClients">0</h3>
+                            <span class="stat-change">Total registrados</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <i data-lucide="bar-chart-3"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Ganancia del Mes</p>
+                            <h3 class="stat-value" id="monthProfit">$0.00</h3>
+                            <span class="stat-change positive">+8.2%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-card">
+                        <h3>Ventas de la Semana</h3>
+                        <div class="chart-placeholder">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Órdenes Recientes</h3>
+                        <div id="recentOrdersList" class="recent-list">
+                            <p class="empty-state">No hay órdenes recientes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Calculator View -->
+            <div id="costs" class="view">
+                <header class="view-header">
+                    <h2>Calculadora de Costos</h2>
+                    <p class="subtitle">Calcula el costo por cápsula y rentabilidad</p>
+                </header>
+
+                <div class="calculator-container">
+                    <div class="calculator-card">
+                        <h3>Componentes de Costo</h3>
+                        <form id="costForm">
+                            <div class="form-group">
+                                <label for="coffeeCost">Costo del Café</label>
+                                <div class="input-row">
+                                    <div class="input-with-icon" style="flex: 2;">
+                                        <span class="currency">$</span>
+                                        <input type="number" id="coffeeCost" step="0.01" placeholder="0.00" required>
+                                    </div>
+                                    <select id="coffeeUnit" style="flex: 1;">
+                                        <option value="g">por Gramo</option>
+                                        <option value="kg">por Kilogramo</option>
+                                        <option value="lb">por Libra</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="coffeeAmount">Cantidad de Café <span class="unit">(gramos por
+                                        cápsula)</span></label>
+                                <input type="number" id="coffeeAmount" step="0.1" placeholder="0.0" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="capsuleCost">Costo de la Cápsula <span class="unit">(unidad)</span></label>
+                                <div class="input-with-icon">
+                                    <span class="currency">$</span>
+                                    <input type="number" id="capsuleCost" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lidCost">Costo de la Tapa <span class="unit">(unidad)</span></label>
+                                <div class="input-with-icon">
+                                    <span class="currency">$</span>
+                                    <input type="number" id="lidCost" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Costo de las Cajas</label>
+                                <div class="form-row">
+                                    <div style="flex: 1;">
+                                        <label for="boxCost12" class="small-label">Caja x12</label>
+                                        <div class="input-with-icon">
+                                            <span class="currency">$</span>
+                                            <input type="number" id="boxCost12" step="0.01" placeholder="0.00" required>
+                                        </div>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label for="boxCost24" class="small-label">Caja x24</label>
+                                        <div class="input-with-icon">
+                                            <span class="currency">$</span>
+                                            <input type="number" id="boxCost24" step="0.01" placeholder="0.00" required>
+                                        </div>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label for="boxCost48" class="small-label">Caja x48</label>
+                                        <div class="input-with-icon">
+                                            <span class="currency">$</span>
+                                            <input type="number" id="boxCost48" step="0.01" placeholder="0.00" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="indirectCosts">Costos Indirectos <span class="unit">(%)</span></label>
+                                <div class="input-with-icon">
+                                    <span class="currency">%</span>
+                                    <input type="number" id="indirectCosts" step="0.1" placeholder="0.0" min="0"
+                                        max="100" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <span>Calcular Costos</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="results-card">
+                        <h3>Resultados del Análisis</h3>
+                        <div id="costResults" class="cost-results">
+                            <div class="result-item">
+                                <span class="result-label">Costo por Cápsula</span>
+                                <span class="result-value" id="costPerCapsule">$0.00</span>
+                            </div>
+                            <div class="result-item highlight">
+                                <span class="result-label">Costo Caja x12</span>
+                                <span class="result-value" id="costBox12">$0.00</span>
+                            </div>
+                            <div class="result-item highlight">
+                                <span class="result-label">Costo Caja x24</span>
+                                <span class="result-value" id="costBox24">$0.00</span>
+                            </div>
+                            <div class="result-item highlight">
+                                <span class="result-label">Costo Caja x48</span>
+                                <span class="result-value" id="costBox48">$0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="cost-breakdown">
+                            <h4>Desglose de Costos</h4>
+                            <div class="breakdown-chart">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar" style="--percentage: 0%" id="coffeeBar"></div>
+                                    <span class="breakdown-label">Café: <strong id="coffeePercent">0%</strong></span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar" style="--percentage: 0%" id="capsuleBar"></div>
+                                    <span class="breakdown-label">Cápsula: <strong
+                                            id="capsulePercent">0%</strong></span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar" style="--percentage: 0%" id="lidBar"></div>
+                                    <span class="breakdown-label">Tapa: <strong id="lidPercent">0%</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Analysis View -->
+            <div id="sales" class="view">
+                <header class="view-header">
+                    <h2>Análisis de Ventas</h2>
+                    <p class="subtitle">Proyecciones, ganancias y crecimiento</p>
+                </header>
+
+                <div class="sales-calculator">
+                    <div class="calculator-card">
+                        <h3>Configurar Precios de Venta</h3>
+                        <form id="salesForm">
+                            <div class="form-group">
+                                <label for="priceBox12">Precio Caja x12</label>
+                                <div class="input-with-icon">
+                                    <span class="currency">$</span>
+                                    <input type="number" id="priceBox12" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="priceBox24">Precio Caja x24</label>
+                                <div class="input-with-icon">
+                                    <span class="currency">$</span>
+                                    <input type="number" id="priceBox24" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="priceBox48">Precio Caja x48</label>
+                                <div class="input-with-icon">
+                                    <span class="currency">$</span>
+                                    <input type="number" id="priceBox48" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <span>Actualizar Precios</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="results-card">
+                        <h3>Márgenes de Ganancia</h3>
+                        <div class="profit-grid">
+                            <div class="profit-item">
+                                <h4>Caja x12</h4>
+                                <p class="profit-amount" id="profitBox12">$0.00</p>
+                                <span class="profit-margin" id="marginBox12">0% margen</span>
+                            </div>
+                            <div class="profit-item">
+                                <h4>Caja x24</h4>
+                                <p class="profit-amount" id="profitBox24">$0.00</p>
+                                <span class="profit-margin" id="marginBox24">0% margen</span>
+                            </div>
+                            <div class="profit-item">
+                                <h4>Caja x48</h4>
+                                <p class="profit-amount" id="profitBox48">$0.00</p>
+                                <span class="profit-margin" id="marginBox48">0% margen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projection-section">
+                    <h3>Proyecciones Mensuales</h3>
+                    <div class="projection-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="projectionBox12">Ventas estimadas Caja x12</label>
+                                <input type="number" id="projectionBox12" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="projectionBox24">Ventas estimadas Caja x24</label>
+                                <input type="number" id="projectionBox24" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="projectionBox48">Ventas estimadas Caja x48</label>
+                                <input type="number" id="projectionBox48" placeholder="0">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="calculateProjections()">
+                            Calcular Proyección
+                        </button>
+                    </div>
+
+                    <div class="projection-results">
+                        <div class="projection-card">
+                            <h4>Ingresos Proyectados</h4>
+                            <p class="projection-value" id="projectedRevenue">$0.00</p>
+                        </div>
+                        <div class="projection-card">
+                            <h4>Costos Proyectados</h4>
+                            <p class="projection-value" id="projectedCosts">$0.00</p>
+                        </div>
+                        <div class="projection-card highlight">
+                            <h4>Ganancia Proyectada</h4>
+                            <p class="projection-value" id="projectedProfit">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clients View -->
+            <div id="clients" class="view">
+                <header class="view-header">
+                    <h2>Gestión de Clientes</h2>
+                    <p class="subtitle">Administra tu cartera de clientes</p>
+                    <button class="btn btn-primary" onclick="showAddClientModal()">
+                        <span>+ Agregar Cliente</span>
+                    </button>
+                </header>
+
+                <div class="clients-container">
+                    <div class="search-bar">
+                        <input type="text" id="clientSearch" placeholder="Buscar cliente..." onkeyup="filterClients()">
+                    </div>
+
+                    <div class="clients-grid" id="clientsGrid">
+                        <p class="empty-state">No hay clientes registrados. Agrega tu primer cliente.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POS View -->
+            <div id="pos" class="view">
+                <header class="view-header">
+                    <h2>Punto de Venta</h2>
+                    <p class="subtitle">Genera facturas y recibos</p>
+                </header>
+
+                <div class="pos-container">
+                    <div class="pos-form">
+                        <div class="form-group">
+                            <label for="posClient">Seleccionar Cliente</label>
+                            <select id="posClient" required>
+                                <option value="">-- Seleccionar --</option>
+                            </select>
+                        </div>
+
+                        <h3>Agregar Productos</h3>
+                        <div class="product-selector">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Producto</label>
+                                    <select id="productType">
+                                        <option value="12">Caja x12</option>
+                                        <option value="24">Caja x24</option>
+                                        <option value="48">Caja x48</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cantidad</label>
+                                    <input type="number" id="productQuantity" value="1" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="addToCart()">Agregar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cart" id="cart">
+                            <h4>Carrito de Compra</h4>
+                            <div id="cartItems" class="cart-items">
+                                <p class="empty-state">El carrito está vacío</p>
+                            </div>
+                            <div class="cart-total">
+                                <span>Total:</span>
+                                <span id="cartTotal">$0.00</span>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary btn-large" onclick="generateReceipt()">
+                            <i data-lucide="file-text"></i>
+                            <span>Generar Recibo</span>
+                        </button>
+                    </div>
+
+                    <div class="receipt-preview" id="receiptPreview">
+                        <h3>Vista Previa del Recibo</h3>
+                        <div class="receipt-content" id="receiptContent">
+                            <p class="empty-state">El recibo aparecerá aquí</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="printReceipt()" style="display: none;"
+                            id="printBtn">
+                            <i data-lucide="printer"></i>
+                            <span>Imprimir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Management View -->
+            <div id="orders" class="view">
+                <header class="view-header">
+                    <h2>Gestión de Órdenes</h2>
+                    <p class="subtitle">Flujo completo: Recepción → Ventas → Empacado → Entrega</p>
+                    <button class="btn btn-primary" onclick="showNewOrderModal()">
+                        <span>+ Nueva Orden</span>
+                    </button>
+                </header>
+
+                <div class="orders-tabs">
+                    <button class="tab-btn active" data-status="all" onclick="filterOrders('all')">
+                        Todas <span class="badge" id="badgeAll">0</span>
+                    </button>
+                    <button class="tab-btn" data-status="received" onclick="filterOrders('received')">
+                        Recibidas <span class="badge" id="badgeReceived">0</span>
+                    </button>
+                    <button class="tab-btn" data-status="sales" onclick="filterOrders('sales')">
+                        En Ventas <span class="badge" id="badgeSales">0</span>
+                    </button>
+                    <button class="tab-btn" data-status="packing" onclick="filterOrders('packing')">
+                        Empacado <span class="badge" id="badgePacking">0</span>
+                    </button>
+                    <button class="tab-btn" data-status="delivery" onclick="filterOrders('delivery')">
+                        Entrega <span class="badge" id="badgeDelivery">0</span>
+                    </button>
+                    <button class="tab-btn" data-status="completed" onclick="filterOrders('completed')">
+                        Completadas <span class="badge" id="badgeCompleted">0</span>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyPhone">Teléfono</label>
+                    <input type="tel" id="companyPhone" placeholder="+1 (555) 000-0000">
+                </div>
+                <div class="form-group">
+                    <label for="companyEmail">Email</label>
+                    <input type="email" id="companyEmail" placeholder="contacto@heaven.com">
+                </div>
+                <div class="form-group">
+                    <label for="companyAddress">Dirección</label>
+                    <textarea id="companyAddress" rows="3" placeholder="Dirección completa..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+
+            <div class="settings-card">
+                <h3>Datos del Sistema</h3>
+                <div class="settings-info">
+                    <p><strong>Última actualización:</strong> <span id="lastUpdate">-</span></p>
+                    <p><strong>Total de clientes:</strong> <span id="totalClients">0</span></p>
+                    <p><strong>Total de órdenes:</strong> <span id="totalOrders">0</span></p>
+                </div>
+                <button type="button" class="btn btn-danger" onclick="clearAllData()">
+                    <i data-lucide="trash-2"></i>
+                    <span>Limpiar Todos los Datos</span>
+                </button>
+            </div>
+    </div>
+    </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="addClientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Cliente</h3>
+                <button class="modal-close" onclick="closeModal('addClientModal')">&times;</button>
+            </div>
+            <form id="addClientForm" onsubmit="saveClient(event)">
+                <div class="form-group">
+                    <label for="clientName">Nombre Completo *</label>
+                    <input type="text" id="clientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">Teléfono *</label>
+                    <input type="tel" id="clientPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">Email</label>
+                    <input type="email" id="clientEmail">
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Dirección *</label>
+                    <input type="text" id="clientAddress" placeholder="Calle y número" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="clientCity">Ciudad *</label>
+                        <input type="text" id="clientCity" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="clientState">Estado *</label>
+                        <input type="text" id="clientState" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="clientZip">Zip *</label>
+                        <input type="text" id="clientZip" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('addClientModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="newOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Orden</h3>
+                <button class="modal-close" onclick="closeModal('newOrderModal')">&times;</button>
+            </div>
+            <form id="newOrderForm" onsubmit="saveOrder(event)">
+                <div class="form-group">
+                    <label for="orderClient">Cliente *</label>
+                    <select id="orderClient" required>
+                        <option value="">-- Seleccionar Cliente --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="orderProduct">Producto *</label>
+                    <select id="orderProduct" required>
+                        <option value="12">Caja x12</option>
+                        <option value="24">Caja x24</option>
+                        <option value="48">Caja x48</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="orderQuantity">Cantidad *</label>
+                    <input type="number" id="orderQuantity" min="1" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderNotes">Notas</label>
+                    <textarea id="orderNotes" rows="3" placeholder="Instrucciones especiales..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('newOrderModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear Orden</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+    </div>
+</body>
+
+</html>

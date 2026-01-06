@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAVEN | Premium Coffee</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="social-icons" id="top-social-icons">
+                <a href="#"><i data-lucide="facebook"></i></a>
+                <a href="#"><i data-lucide="instagram"></i></a>
+                <a href="#"><i data-lucide="mail"></i></a>
+                <a href="#"><i data-lucide="phone"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <!-- Assuming logo.png is in root or we use text -->
+                <!-- <img src="logo.png" alt="HEAVEN Logo"> -->
+                <span>HEAVEN</span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-icons">
+                <a href="#"><i data-lucide="search"></i></a>
+                <!-- Login Link -->
+                <a href="/gestion/index.html" title="Login / Dashboard"><i data-lucide="user"></i></a>
+                <a href="#"><i data-lucide="shopping-bag"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero / Carousel -->
+    <section class="hero">
+        <!-- Slides will be loaded dynamically -->
+        <div id="hero-loading"
+            style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--gold-primary);">
+            <p>Cargando...</p>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="features-container">
+            <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="credit-card"></i></div>
+                <h3>Secure Payment</h3>
+                <p>100% Secure Payment</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="refresh-cw"></i></div>
+                <h3>30 Days Return</h3>
+                <p>If goods have problems</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="headphones"></i></div>
+                <h3>24/7 Support</h3>
+                <p>Dedicated support</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="truck"></i></div>
+                <h3>Free Delivery</h3>
+                <p>For all orders over $80</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Preview -->
+    <section id="products" class="products-preview">
+        <div class="section-header">
+            <h2>Our Premium Selection</h2>
+            <p>Hand-picked beans, roasted to perfection.</p>
+        </div>
+        <div class="product-grid">
+            <!-- Default Content (Will be replaced if data exists) -->
+            <div class="product-card">
+                <div class="product-image">
+                    <i data-lucide="coffee" size="48"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Heaven Signature</h3>
+                    <div class="product-price">$24.00</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <i data-lucide="coffee" size="48"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Gold Roast</h3>
+                    <div class="product-price">$28.50</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <i data-lucide="coffee" size="48"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Espresso Dark</h3>
+                    <div class="product-price">$22.00</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <i data-lucide="coffee" size="48"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Arabica Blend</h3>
+                    <div class="product-price">$26.00</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo">
+                    <span>HEAVEN</span>
+                </div>
+                <p style="margin-top: 1rem; color: #8a8a8a;">Bringing the finest coffee experience to your daily life.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <ul id="footer-contact-info">
+                    <li><i data-lucide="map-pin" style="width:14px; display:inline;"></i> Paterson, New Jersey</li>
+                    <li><i data-lucide="phone" style="width:14px; display:inline;"></i> +1 551 301 4573</li>
+                    <li><i data-lucide="mail" style="width:14px; display:inline;"></i> info@heavencoffeeus.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links" id="footer-social-links">
+                    <a href="#"><i data-lucide="facebook"></i></a>
+                    <a href="#"><i data-lucide="instagram"></i></a>
+                    <a href="#"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 HEAVEN Coffee. All rights reserved. | Designed and Powered by Freedom Labs</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDcQw9fbueQ2MRoO5thpfN3N_Pk4yaYmYM",
+            authDomain: "heaven-99e7b.firebaseapp.com",
+            projectId: "heaven-99e7b",
+            storageBucket: "heaven-99e7b.firebasestorage.app",
+            messagingSenderId: "762982225526",
+            appId: "1:762982225526:web:eb1426623d1227bca0f157",
+            measurementId: "G-Y9PTN2NLS6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Simple sticky header effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                header.style.backgroundColor = '#222222';
+            }
+        });
+
+        // Load Global Config (Info & Social)
+        async function loadGlobalConfig() {
+            try {
+                const q = query(collection(db, 'config'));
+                const snapshot = await getDocs(q);
+
+                let contactData = {
+                    address: 'Paterson, New Jersey',
+                    phone: '+1 551 301 4573',
+                    email: 'info@heavencoffeeus.com'
+                };
+                let socialData = {};
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.type === 'contact_info') contactData = { ...contactData, ...data };
+                    if (data.type === 'social_links') socialData = data;
+                });
+
+                // Update Contact Info (Footer)
+                const footerContact = document.getElementById('footer-contact-info');
+                if (footerContact) {
+                    footerContact.innerHTML = `
+                         <li><i data-lucide="map-pin" style="width:14px; display:inline;"></i> ${contactData.address}</li>
+                         <li><i data-lucide="phone" style="width:14px; display:inline;"></i> ${contactData.phone}</li>
+                         <li><i data-lucide="mail" style="width:14px; display:inline;"></i> ${contactData.email}</li>
+                         ${contactData.hours ? `<li><i data-lucide="clock" style="width:14px; display:inline;"></i> ${contactData.hours}</li>` : ''}
+                    `;
+                }
+
+                // Update Social Links (TopBar & Footer)
+                const updateSocial = (containerId) => {
+                    const container = document.getElementById(containerId);
+                    if (!container) return;
+
+                    let html = '';
+                    if (socialData.facebook) html += `<a href="${socialData.facebook}" target="_blank"><i data-lucide="facebook"></i></a>`;
+                    if (socialData.instagram) html += `<a href="${socialData.instagram}" target="_blank"><i data-lucide="instagram"></i></a>`;
+                    if (socialData.twitter) html += `<a href="${socialData.twitter}" target="_blank"><i data-lucide="twitter"></i></a>`;
+                    if (socialData.youtube) html += `<a href="${socialData.youtube}" target="_blank"><i data-lucide="youtube"></i></a>`;
+
+                    if (html) {
+                        container.innerHTML = html;
+                    }
+                };
+
+                // Only update if we actually got social data
+                if (Object.keys(socialData).length > 0) {
+                    updateSocial('top-social-icons');
+                    updateSocial('footer-social-links');
+                }
+
+                lucide.createIcons();
+
+            } catch (error) {
+                console.error("Error loading config:", error);
+            }
+        }
+
+        // Load Banners from Firebase
+        async function loadHeroBanners() {
+            const heroSection = document.querySelector('.hero');
+            try {
+                // Testing without orderBy first to rule out index issues
+                const q = query(collection(db, 'banners'), limit(5));
+                const snapshot = await getDocs(q);
+
+                if (!snapshot.empty) {
+                    heroSection.innerHTML = ''; // Clear default static slides
+
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        // Determine styles based on alignment
+                        let contentStyle = '';
+                        if (data.alignment === 'right') {
+                            contentStyle = 'text-align: right; margin-left: auto; margin-right: 5%;';
+                        } else if (data.alignment === 'left') {
+                            contentStyle = 'text-align: left; margin-right: auto; margin-left: 5%;';
+                        } else {
+                            contentStyle = 'text-align: center; margin: 0 auto;';
+                        }
+
+                        const slideHTML = `
+                            <div class="hero-slide" style="background-image: url('${data.imageUrl}');">
+                                <div class="hero-content" style="${contentStyle}">
+                                    ${data.title ? `<h1 style="margin-bottom: 0.5rem;">${data.title}</h1>` : ''}
+                                    ${data.subtitle ? `<p style="font-size: 1.5rem; margin-bottom: 2rem; color: #f0f0f0;">${data.subtitle}</p>` : ''}
+                                    ${data.btnText ? `<a href="${data.btnLink || '#'}" class="btn-hero">${data.btnText}</a>` : ''}
+                                </div>
+                            </div>
+                        `;
+                        heroSection.insertAdjacentHTML('beforeend', slideHTML);
+                    });
+
+                    // Restart Carousel Logic
+                    initCarousel();
+                } else {
+                    // Initialize carousel for static slides if no data
+                    initCarousel();
+                }
+            } catch (error) {
+                console.error("Error loading banners:", error);
+                // Fallback to static carousel
+                initCarousel();
+            }
+        }
+
+        // Load Dynamic Products
+        async function loadProducts() {
+            const grid = document.querySelector('.product-grid');
+            try {
+                const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(8));
+                const snapshot = await getDocs(q);
+
+                if (!snapshot.empty) {
+                    grid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        grid.innerHTML += `
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="${data.imageUrl}" alt="${data.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">${data.title}</h3>
+                                    <div class="product-price">${data.price}</div>
+                                </div>
+                            </div>
+                         `;
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading products:", error);
+            }
+        }
+
+        function initCarousel() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if (slides.length === 0) return;
+
+            let currentSlide = 0;
+
+            // Show first slide
+            slides[0].classList.add('active');
+
+            if (slides.length > 1) {
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 5000);
+            }
+        }
+
+        // Start
+        loadGlobalConfig();
+        loadHeroBanners();
+        loadProducts();
+    </script>
+</body>
+
+</html>

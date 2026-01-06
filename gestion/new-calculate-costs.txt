@@ -1,0 +1,52 @@
+function calculateCosts() {
+    const coffeeCostPerCapsule = costsData.coffeeCost * costsData.coffeeAmount;
+    
+    // Costo base sin caja (café + cápsula + tapa)
+    const baseCostWithoutBox = coffeeCostPerCapsule + costsData.capsuleCost + costsData.lidCost;
+    
+    // Calcular costo por cápsula para CADA tamaño de caja
+    const costPerCapsule12 = baseCostWithoutBox + (costsData.boxCost12 / 12);
+    const costPerCapsule24 = baseCostWithoutBox + (costsData.boxCost24 / 24);
+    const costPerCapsule48 = baseCostWithoutBox + (costsData.boxCost48 / 48);
+    
+    // Aplicar costos indirectos a cada uno
+    const indirectRate = costsData.indirectCosts / 100;
+    const finalCost12 = costPerCapsule12 * (1 + indirectRate);
+    const finalCost24 = costPerCapsule24 * (1 + indirectRate);
+    const finalCost48 = costPerCapsule48 * (1 + indirectRate);
+    
+    // Guardar el costo promedio (usando caja de 12 como referencia)
+    costsData.costPerCapsule = finalCost12;
+    
+    // Costos totales por caja
+    const costBox12 = finalCost12 * 12;
+    const costBox24 = finalCost24 * 24;
+    const costBox48 = finalCost48 * 48;
+    
+    // Mostrar costo por cápsula general
+    document.getElementById('costPerCapsule').textContent = `$${finalCost12.toFixed(3)}`;
+    
+    // Mostrar costo total Y costo por cápsula para cada caja
+    document.getElementById('costBox12').textContent = `$${costBox12.toFixed(2)} ($${finalCost12.toFixed(3)}/cápsula)`;
+    document.getElementById('costBox24').textContent = `$${costBox24.toFixed(2)} ($${finalCost24.toFixed(3)}/cápsula)`;
+    document.getElementById('costBox48').textContent = `$${costBox48.toFixed(2)} ($${finalCost48.toFixed(3)}/cápsula)`;
+
+    // Calculate percentages for breakdown
+    const totalCost = coffeeCostPerCapsule + costsData.capsuleCost + costsData.lidCost;
+    const coffeePercent = (coffeeCostPerCapsule / totalCost * 100).toFixed(1);
+    const capsulePercent = (costsData.capsuleCost / totalCost * 100).toFixed(1);
+    const lidPercent = (costsData.lidCost / totalCost * 100).toFixed(1);
+    
+    document.getElementById('coffeeBar').style.setProperty('--percentage', `${coffeePercent}%`);
+    document.getElementById('capsuleBar').style.setProperty('--percentage', `${capsulePercent}%`);
+    document.getElementById('lidBar').style.setProperty('--percentage', `${lidPercent}%`);
+    
+    document.getElementById('coffeePercent').textContent = `${coffeePercent}%`;
+    document.getElementById('capsulePercent').textContent = `${capsulePercent}%`;
+    document.getElementById('lidPercent').textContent = `${lidPercent}%`;
+    
+    // Recalculate profits if sales data exists
+    if (salesData.priceBox12 > 0) {
+        calculateProfits();
+    }
+}
