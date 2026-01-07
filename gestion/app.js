@@ -827,26 +827,39 @@ window.loadMessages = async () => {
         snapshot.forEach(doc => {
             const msg = doc.data();
             const date = msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleString() : 'Reciente';
+            const isRead = msg.isRead || false;
 
             const item = document.createElement('div');
             item.className = 'message-card';
-            item.style.cssText = 'background: #2a2a2a; padding: 1.5rem; border-radius: 8px; border: 1px solid #444; margin-bottom: 1rem;';
+
+            // Estilos dinámicos según leído/no leído
+            const cardStyle = isRead
+                ? 'background: #222; padding: 1.5rem; border-radius: 8px; border: 1px solid #333; margin-bottom: 1rem; opacity: 0.7;'
+                : 'background: #2a2a2a; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--gold-primary); margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
+
+            item.style.cssText = cardStyle;
+
             item.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; border-bottom:1px solid #444; padding-bottom:0.5rem;">
                     <div>
-                        <h4 style="color:#fff; margin:0 0 0.25rem 0; font-size:1.1rem;">${msg.subject || 'Sin Asunto'}</h4>
-                        <span style="color:var(--gold-primary); font-size:0.9rem;">${msg.name} &lt;${msg.email}&gt;</span>
+                        <h4 style="color:#fff; margin:0 0 0.25rem 0; font-size:1.1rem; display:flex; align-items:center;">
+                            ${isRead ? '<i data-lucide="check-circle" style="width:16px; color:#4caf50; margin-right:5px;"></i>' : '<i data-lucide="mail" style="width:16px; color:var(--gold-primary); margin-right:5px;"></i>'}
+                            ${msg.subject || 'Sin Asunto'}
+                        </h4>
+                        <span style="color:${isRead ? '#666' : 'var(--gold-primary)'}; font-size:0.9rem;">${msg.name} &lt;${msg.email}&gt;</span>
                     </div>
                     <span style="color:#666; font-size:0.85rem;">${date}</span>
                 </div>
-                <div style="background:#222; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message}</div>
+                <div style="background:#1a1a1a; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message}</div>
                 <div style="margin-top:1rem; text-align:right;">
-                    <button onclick="window.replyToMessage('${msg.email}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Responder</button>
+                    ${!isRead ? `<button onclick="window.markAsRead('${doc.id}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Marcar como Leído</button>` : ''}
                     <button onclick="deleteMessage('${doc.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
                 </div>
             `;
             list.appendChild(item);
         });
+
+        lucide.createIcons();
 
     } catch (e) {
         console.error("Error loading messages:", e);
@@ -854,8 +867,16 @@ window.loadMessages = async () => {
     }
 };
 
-window.replyToMessage = (email) => {
-    window.location.href = `mailto:${email}`;
+window.markAsRead = async (id) => {
+    try {
+        await updateDoc(doc(db, 'messages', id), {
+            isRead: true
+        });
+        loadMessages();
+    } catch (e) {
+        console.error(e);
+        alert('Error al actualizar estado');
+    }
 };
 
 window.deleteMessage = async (id) => {

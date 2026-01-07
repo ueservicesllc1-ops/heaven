@@ -22,6 +22,7 @@
             text-align: center;
         }
     </style>
+    <script src="translations.js"></script>
 </head>
 
 <body>
@@ -45,12 +46,12 @@
             </div>
 
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/#products">Products</a></li>
-                <li><a href="/#services">Services</a></li>
-                <li><a href="about.html" class="active">About Us</a></li>
-                <li><a href="/#news">News</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="/" data-i18n="nav.home">Home</a></li>
+                <li><a href="/#products" data-i18n="nav.products">Products</a></li>
+                <li><a href="/#services" data-i18n="nav.services">Services</a></li>
+                <li><a href="about.html" class="active" data-i18n="nav.about">About Us</a></li>
+                <li><a href="news.html" data-i18n="nav.news">News</a></li>
+                <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
 
             <div class="nav-icons">
@@ -63,9 +64,11 @@
 
     <!-- Page Content -->
     <div class="page-header">
-        <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold-primary);">Nuestra
+        <h1 data-i18n="about.header.title"
+            style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold-primary);">Nuestra
             Historia</h1>
-        <p style="color: #ddd; font-size: 1.2rem; max-width: 600px; margin: 1rem auto;">Pasión, tradición y excelencia
+        <p data-i18n="about.header.subtitle"
+            style="color: #ddd; font-size: 1.2rem; max-width: 600px; margin: 1rem auto;">Pasión, tradición y excelencia
             en cada grano.</p>
     </div>
 
@@ -74,40 +77,45 @@
             style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; align-items: start;">
 
             <div class="about-content">
-                <h2
+                <h2 data-i18n="about.content.title1"
                     style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 2rem;">
                     Más que una Marca, una Familia
                 </h2>
-                <p style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
+                <p data-i18n="about.content.p1"
+                    style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
                     Todo comenzó como una pasión familiar. En <strong>HEAVEN</strong>, somos una familia unida por el
                     amor al buen café. Nuestro sueño siempre fue compartir con el mundo el tesoro escondido de nuestras
                     tierras: el <strong>café de altura ecuatoriano</strong>.
                 </p>
-                <p style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
+                <p data-i18n="about.content.p2"
+                    style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
                     Con mucho esfuerzo, dedicación y respeto por la tradición, hemos logrado consolidar nuestra propia
                     marca. No somos una gran corporación industrial; somos artesanos del café que cuidan cada detalle,
                     desde la selección del grano hasta el tostado final.
                 </p>
 
-                <h3
+                <h3 data-i18n="about.content.title2"
                     style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: white; margin: 2rem 0 1rem;">
                     El secreto de la Altura
                 </h3>
-                <p style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
+                <p data-i18n="about.content.p3"
+                    style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
                     Investigaciones confirman que Ecuador, gracias a su ubicación única en la mitad del mundo y su
                     geografía andina, posee microclimas perfectos para el cultivo de café de especialidad.
                 </p>
-                <p style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
+                <p data-i18n="about.content.p4"
+                    style="margin-bottom: 1.5rem; color: #ccc; line-height: 1.8; font-size: 1.05rem;">
                     Nuestro café crece en las laderas de los Andes, a gran altitud y en suelos volcánicos ricos en
                     minerales. Esta combinación provoca una maduración más lenta de la cereza del café, permitiendo que
                     desarrolle:
                 </p>
                 <ul style="color: #ccc; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.8;">
-                    <li>Acidez brillante y balanceada.</li>
-                    <li>Cuerpo complejo y sedoso.</li>
-                    <li>Notas aromáticas profundas a chocolate, nueces y frutas silvestres.</li>
+                    <li data-i18n="about.content.li1">Acidez brillante y balanceada.</li>
+                    <li data-i18n="about.content.li2">Cuerpo complejo y sedoso.</li>
+                    <li data-i18n="about.content.li3">Notas aromáticas profundas a chocolate, nueces y frutas
+                        silvestres.</li>
                 </ul>
-                <p style="color: #ccc; line-height: 1.8; font-size: 1.05rem;">
+                <p data-i18n="about.content.p5" style="color: #ccc; line-height: 1.8; font-size: 1.05rem;">
                     Cada bolsa de **HEAVEN** representa nuestra historia, nuestro esfuerzo y nuestro deseo de llevarte
                     una experiencia verdaderamente celestial en cada taza.
                 </p>
@@ -140,7 +148,8 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="/#products">Shop</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col">

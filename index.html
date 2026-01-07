@@ -12,6 +12,7 @@
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="translations.js"></script>
 </head>
 
 <body>
@@ -38,12 +39,12 @@
             </div>
 
             <ul class="nav-links">
-                <li><a href="/" class="active">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="#news">News</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="/" class="active" data-i18n="nav.home">Home</a></li>
+                <li><a href="#products" data-i18n="nav.products">Products</a></li>
+                <li><a href="#services" data-i18n="nav.services">Services</a></li>
+                <li><a href="about.html" data-i18n="nav.about">About Us</a></li>
+                <li><a href="news.html" data-i18n="nav.news">News</a></li>
+                <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
 
             <div class="nav-icons">
@@ -69,23 +70,23 @@
         <div class="features-container">
             <div class="feature-item">
                 <div class="feature-icon"><i data-lucide="credit-card"></i></div>
-                <h3>Secure Payment</h3>
-                <p>100% Secure Payment</p>
+                <h3 data-i18n="features.secure.title">Secure Payment</h3>
+                <p data-i18n="features.secure.desc">100% Secure Payment</p>
             </div>
             <div class="feature-item">
                 <div class="feature-icon"><i data-lucide="refresh-cw"></i></div>
-                <h3>30 Days Return</h3>
-                <p>If goods have problems</p>
+                <h3 data-i18n="features.return.title">30 Days Return</h3>
+                <p data-i18n="features.return.desc">If goods have problems</p>
             </div>
             <div class="feature-item">
                 <div class="feature-icon"><i data-lucide="headphones"></i></div>
-                <h3>24/7 Support</h3>
-                <p>Dedicated support</p>
+                <h3 data-i18n="features.support.title">24/7 Support</h3>
+                <p data-i18n="features.support.desc">Dedicated support</p>
             </div>
             <div class="feature-item">
                 <div class="feature-icon"><i data-lucide="truck"></i></div>
-                <h3>Free Delivery</h3>
-                <p>For all orders over $80</p>
+                <h3 data-i18n="features.delivery.title">Free Delivery</h3>
+                <p data-i18n="features.delivery.desc">For all orders over $80</p>
             </div>
         </div>
     </section>
@@ -93,8 +94,8 @@
     <!-- Products Preview -->
     <section id="products" class="products-preview">
         <div class="section-header">
-            <h2>Our Premium Selection</h2>
-            <p>Hand-picked beans, roasted to perfection.</p>
+            <h2 data-i18n="products.header.title">Our Premium Selection</h2>
+            <p data-i18n="products.header.desc">Hand-picked beans, roasted to perfection.</p>
         </div>
         <div class="product-grid">
             <!-- Default Content (Will be replaced if data exists) -->
@@ -103,35 +104,35 @@
                     <i data-lucide="coffee" size="48"></i>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Heaven Signature</h3>
-                    <div class="product-price">$24.00</div>
+                    <h3 class="product-title" data-i18n="product.molido">Cafe Molido</h3>
+                    <div class="product-price">$12.00</div>
                 </div>
             </div>
             <div class="product-card">
                 <div class="product-image">
-                    <i data-lucide="coffee" size="48"></i>
+                    <i data-lucide="package" size="48"></i>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Gold Roast</h3>
-                    <div class="product-price">$28.50</div>
+                    <h3 class="product-title" data-i18n="product.k12">Caja 12 K-Cups</h3>
+                    <div class="product-price">$8.00</div>
                 </div>
             </div>
             <div class="product-card">
                 <div class="product-image">
-                    <i data-lucide="coffee" size="48"></i>
+                    <i data-lucide="package" size="48"></i>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Espresso Dark</h3>
-                    <div class="product-price">$22.00</div>
+                    <h3 class="product-title" data-i18n="product.k24">Caja 24 K-Cups</h3>
+                    <div class="product-price">$30.00</div>
                 </div>
             </div>
             <div class="product-card">
                 <div class="product-image">
-                    <i data-lucide="coffee" size="48"></i>
+                    <i data-lucide="package" size="48"></i>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Arabica Blend</h3>
-                    <div class="product-price">$26.00</div>
+                    <h3 class="product-title" data-i18n="product.k48">Caja de 48 Kcups</h3>
+                    <div class="product-price">$35.00</div>
                 </div>
             </div>
         </div>
@@ -144,20 +145,21 @@
                 <div class="logo">
                     <span>HEAVEN</span>
                 </div>
-                <p style="margin-top: 1rem; color: #8a8a8a;">Bringing the finest coffee experience to your daily life.
-                </p>
+                <p data-i18n="footer.desc" style="margin-top: 1rem; color: #8a8a8a;">Bringing the finest coffee
+                    experience to your daily life.</p>
             </div>
             <div class="footer-col">
-                <h4>Quick Links</h4>
+                <h4 data-i18n="footer.quicklinks">Quick Links</h4>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#products">Shop</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/" data-i18n="nav.home">Home</a></li>
+                    <li><a href="about.html" data-i18n="nav.about">About Us</a></li>
+                    <li><a href="#products" data-i18n="nav.products">Shop</a></li>
+                    <li><a href="news.html" data-i18n="nav.news">News</a></li>
+                    <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Contact Us</h4>
+                <h4 data-i18n="footer.contact">Contact Us</h4>
                 <ul id="footer-contact-info">
                     <li><i data-lucide="map-pin" style="width:14px; display:inline;"></i> Paterson, New Jersey</li>
                     <li><i data-lucide="phone" style="width:14px; display:inline;"></i> +1 551 301 4573</li>
@@ -165,7 +167,7 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Follow Us</h4>
+                <h4 data-i18n="footer.follow">Follow Us</h4>
                 <div class="social-links" id="footer-social-links">
                     <a href="#"><i data-lucide="facebook"></i></a>
                     <a href="#"><i data-lucide="instagram"></i></a>
@@ -174,7 +176,8 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2026 HEAVEN Coffee. All rights reserved. | Designed and Powered by Freedom Labs</p>
+            <p data-i18n="footer.rights">&copy; 2026 HEAVEN Coffee. All rights reserved. | Designed and Powered by
+                Freedom Labs</p>
         </div>
     </footer>
 
