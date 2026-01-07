@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAVEN | Contacto</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="social-icons" id="top-social-icons">
+                <!-- Loaded via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="/" style="text-decoration:none;"><span>HEAVEN</span></a>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/#services">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="/#news">News</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+
+            <div class="nav-icons">
+                <a href="#"><i data-lucide="search"></i></a>
+                <a href="/gestion/index.html"><i data-lucide="user"></i></a>
+                <a href="#"><i data-lucide="shopping-bag"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-header">
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold-primary);">Contáctanos
+        </h1>
+        <p style="color: #ddd; font-size: 1.2rem; max-width: 600px; margin: 1rem auto;">Estamos aquí para responder tus
+            dudas.</p>
+    </div>
+
+    <section id="contact-form-section" style="padding: 6rem 1rem; background-color: var(--bg-secondary);">
+        <div class="container"
+            style="max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 2rem; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2);">
+            <form id="contactForm" style="display: grid; gap: 1.5rem;">
+                <div class="form-group">
+                    <label style="color: #ccc; margin-bottom: 0.5rem; display: block;">Nombre Completo</label>
+                    <input type="text" id="contactName" required
+                        style="width: 100%; padding: 0.8rem; background: #333; border: 1px solid #555; color: white; border-radius: 4px;">
+                </div>
+                <div class="form-group">
+                    <label style="color: #ccc; margin-bottom: 0.5rem; display: block;">Correo Electrónico</label>
+                    <input type="email" id="contactEmail" required
+                        style="width: 100%; padding: 0.8rem; background: #333; border: 1px solid #555; color: white; border-radius: 4px;">
+                </div>
+                <div class="form-group">
+                    <label style="color: #ccc; margin-bottom: 0.5rem; display: block;">Asunto</label>
+                    <input type="text" id="contactSubject" required
+                        style="width: 100%; padding: 0.8rem; background: #333; border: 1px solid #555; color: white; border-radius: 4px;">
+                </div>
+                <div class="form-group">
+                    <label style="color: #ccc; margin-bottom: 0.5rem; display: block;">Mensaje</label>
+                    <textarea id="contactMessage" rows="5" required
+                        style="width: 100%; padding: 0.8rem; background: #333; border: 1px solid #555; color: white; border-radius: 4px;"></textarea>
+                </div>
+                <button type="submit"
+                    style="justify-self: center; padding: 1rem 3rem; font-size: 1.1rem; cursor: pointer; background: var(--gold-primary); color: black; font-weight: bold; border: none; border-radius: 4px; transition: 0.3s;">Enviar
+                    Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo">
+                    <span>HEAVEN</span>
+                </div>
+                <p style="margin-top: 1rem; color: #8a8a8a;">Bringing the finest coffee experience to your daily life.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="/#products">Shop</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <ul id="footer-contact-info">
+                    <li><i data-lucide="map-pin" style="width:14px; display:inline;"></i> Paterson, New Jersey</li>
+                    <li><i data-lucide="phone" style="width:14px; display:inline;"></i> +1 551 301 4573</li>
+                    <li><i data-lucide="mail" style="width:14px; display:inline;"></i> info@heavencoffeeus.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links" id="footer-social-links">
+                    <!-- loaded via js -->
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 HEAVEN Coffee. All rights reserved. | Designed and Powered by Freedom Labs</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDcQw9fbueQ2MRoO5thpfN3N_Pk4yaYmYM",
+            authDomain: "heaven-99e7b.firebaseapp.com",
+            projectId: "heaven-99e7b",
+            storageBucket: "heaven-99e7b.firebasestorage.app",
+            messagingSenderId: "762982225526",
+            appId: "1:762982225526:web:eb1426623d1227bca0f157",
+            measurementId: "G-Y9PTN2NLS6"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        lucide.createIcons();
+
+        // Load Global Config (Info & Social)
+        async function loadGlobalConfig() {
+            try {
+                const q = query(collection(db, 'config'));
+                const snapshot = await getDocs(q);
+
+                let contactData = {
+                    address: 'Paterson, New Jersey',
+                    phone: '+1 551 301 4573',
+                    email: 'info@heavencoffeeus.com'
+                };
+                let socialData = {};
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.type === 'contact_info') contactData = { ...contactData, ...data };
+                    if (data.type === 'social_links') socialData = data;
+                });
+
+                // Update Contact Info (Footer)
+                const footerContact = document.getElementById('footer-contact-info');
+                if (footerContact) {
+                    footerContact.innerHTML = `
+                         <li><i data-lucide="map-pin" style="width:14px; display:inline;"></i> ${contactData.address}</li>
+                         <li><i data-lucide="phone" style="width:14px; display:inline;"></i> ${contactData.phone}</li>
+                         <li><i data-lucide="mail" style="width:14px; display:inline;"></i> ${contactData.email}</li>
+                         ${contactData.hours ? `<li><i data-lucide="clock" style="width:14px; display:inline;"></i> ${contactData.hours}</li>` : ''}
+                    `;
+                }
+
+                // Update Social Links (TopBar & Footer)
+                const updateSocial = (containerId) => {
+                    const container = document.getElementById(containerId);
+                    if (!container) return;
+
+                    let html = '';
+                    if (socialData.facebook) html += `<a href="${socialData.facebook}" target="_blank"><i data-lucide="facebook"></i></a>`;
+                    if (socialData.instagram) html += `<a href="${socialData.instagram}" target="_blank"><i data-lucide="instagram"></i></a>`;
+                    if (socialData.twitter) html += `<a href="${socialData.twitter}" target="_blank"><i data-lucide="twitter"></i></a>`;
+                    if (socialData.youtube) html += `<a href="${socialData.youtube}" target="_blank"><i data-lucide="youtube"></i></a>`;
+
+                    if (html) {
+                        container.innerHTML = html;
+                    }
+                };
+
+                if (Object.keys(socialData).length > 0) {
+                    updateSocial('top-social-icons');
+                    updateSocial('footer-social-links');
+                }
+
+                lucide.createIcons();
+
+            } catch (error) {
+                console.error("Error loading config:", error);
+            }
+        }
+
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Enviando...';
+
+                await addDoc(collection(db, 'messages'), {
+                    name,
+                    email,
+                    subject,
+                    message,
+                    createdAt: serverTimestamp(),
+                    isRead: false
+                });
+
+                alert('¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.');
+                e.target.reset();
+
+            } catch (error) {
+                console.error("Error sending message:", error);
+                alert('Hubo un error al enviar el mensaje. Por favor intenta de nuevo.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        });
+
+        // Simple Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                header.style.backgroundColor = '#222222';
+            }
+        });
+
+        loadGlobalConfig();
+    </script>
+</body>
+
+</html>

@@ -805,6 +805,73 @@ window.filterClients = () => {
     });
 };
 
+// ==========================================
+// CONTACT MESSAGES
+// ==========================================
+window.loadMessages = async () => {
+    const list = document.getElementById('messagesList');
+    if (!list) return;
+
+    list.innerHTML = '<p>Cargando mensajes...</p>';
+
+    try {
+        const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+            list.innerHTML = '<p class="empty-state" style="text-align:center; padding:2rem; color:#888;">No hay mensajes nuevos.</p>';
+            return;
+        }
+
+        list.innerHTML = '';
+        snapshot.forEach(doc => {
+            const msg = doc.data();
+            const date = msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleString() : 'Reciente';
+
+            const item = document.createElement('div');
+            item.className = 'message-card';
+            item.style.cssText = 'background: #2a2a2a; padding: 1.5rem; border-radius: 8px; border: 1px solid #444; margin-bottom: 1rem;';
+            item.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; border-bottom:1px solid #444; padding-bottom:0.5rem;">
+                    <div>
+                        <h4 style="color:#fff; margin:0 0 0.25rem 0; font-size:1.1rem;">${msg.subject || 'Sin Asunto'}</h4>
+                        <span style="color:var(--gold-primary); font-size:0.9rem;">${msg.name} &lt;${msg.email}&gt;</span>
+                    </div>
+                    <span style="color:#666; font-size:0.85rem;">${date}</span>
+                </div>
+                <div style="background:#222; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message}</div>
+                <div style="margin-top:1rem; text-align:right;">
+                    <button onclick="window.replyToMessage('${msg.email}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Responder</button>
+                    <button onclick="deleteMessage('${doc.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+
+    } catch (e) {
+        console.error("Error loading messages:", e);
+        list.innerHTML = '<p class="error">Error cargando mensajes. Verifica permisos.</p>';
+    }
+};
+
+window.replyToMessage = (email) => {
+    window.location.href = `mailto:${email}`;
+};
+
+window.deleteMessage = async (id) => {
+    if (confirm('¿Estás seguro de eliminar este mensaje?')) {
+        try {
+            await deleteDoc(doc(db, 'messages', id));
+            loadMessages();
+        } catch (e) {
+            console.error(e);
+            alert('Error al borrar el mensaje');
+        }
+    }
+};
+
+
+
 function updateClientSelects() {
     const selects = ['posClient', 'orderClient'];
 

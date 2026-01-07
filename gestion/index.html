@@ -92,6 +92,10 @@
                     <i data-lucide="package" class="icon"></i>
                     <span class="label">Gestión de Órdenes</span>
                 </li>
+                <li class="nav-item" data-view="messages">
+                    <i data-lucide="mail" class="icon"></i>
+                    <span class="label">Mensajes</span>
+                </li>
                 <li class="nav-item" data-view="settings">
                     <i data-lucide="settings" class="icon"></i>
                     <span class="label">Configuración</span>
@@ -536,35 +540,74 @@
                     </button>
                 </div>
 
-                <div class="form-group">
-                    <label for="companyPhone">Teléfono</label>
-                    <input type="tel" id="companyPhone" placeholder="+1 (555) 000-0000">
+                <div class="orders-grid" id="ordersGrid" style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <p class="empty-state">No hay órdenes registradas.</p>
                 </div>
-                <div class="form-group">
-                    <label for="companyEmail">Email</label>
-                    <input type="email" id="companyEmail" placeholder="contacto@heaven.com">
-                </div>
-                <div class="form-group">
-                    <label for="companyAddress">Dirección</label>
-                    <textarea id="companyAddress" rows="3" placeholder="Dirección completa..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                </form>
             </div>
 
-            <div class="settings-card">
-                <h3>Datos del Sistema</h3>
-                <div class="settings-info">
-                    <p><strong>Última actualización:</strong> <span id="lastUpdate">-</span></p>
-                    <p><strong>Total de clientes:</strong> <span id="totalClients">0</span></p>
-                    <p><strong>Total de órdenes:</strong> <span id="totalOrders">0</span></p>
+            <!-- Messages View -->
+            <div id="messages" class="view">
+                <header class="view-header">
+                    <h2>Mensajes de Contacto</h2>
+                    <p class="subtitle">Bandeja de entrada del sitio web</p>
+                    <button class="btn btn-primary" onclick="loadMessages()">
+                        <i data-lucide="refresh-cw" style="width:16px; margin-right:5px;"></i> Actualizar
+                    </button>
+                </header>
+
+                <div class="messages-container" style="padding: 1rem;">
+                    <div id="messagesList" style="display: grid; gap: 1rem;">
+                        <p>Cargando...</p>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-danger" onclick="clearAllData()">
-                    <i data-lucide="trash-2"></i>
-                    <span>Limpiar Todos los Datos</span>
-                </button>
             </div>
-    </div>
+
+            <!-- Settings View -->
+            <div id="settings" class="view">
+                <header class="view-header">
+                    <h2>Configuración</h2>
+                </header>
+
+                <div class="settings-container" style="max-width: 800px; margin: 0 auto;">
+                    <!-- Company Settings Form -->
+                    <div class="settings-card" style="margin-bottom: 2rem;">
+                        <h3>Datos de la Empresa</h3>
+                        <form id="companyForm">
+                            <div class="form-group">
+                                <label for="companyName">Nombre de la Empresa</label>
+                                <input type="text" id="companyName" placeholder="HEAVEN">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyPhone">Teléfono</label>
+                                <input type="tel" id="companyPhone" placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyEmail">Email</label>
+                                <input type="email" id="companyEmail" placeholder="contacto@heaven.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyAddress">Dirección</label>
+                                <textarea id="companyAddress" rows="3" placeholder="Dirección completa..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar Datos</button>
+                        </form>
+                    </div>
+
+                    <!-- System Data Card -->
+                    <div class="settings-card">
+                        <h3>Datos del Sistema</h3>
+                        <div class="settings-info">
+                            <p><strong>Última actualización:</strong> <span id="lastUpdate">-</span></p>
+                            <p><strong>Total de clientes:</strong> <span id="totalClients">0</span></p>
+                            <p><strong>Total de órdenes:</strong> <span id="totalOrders">0</span></p>
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="clearAllData()">
+                            <i data-lucide="trash-2"></i>
+                            <span>Limpiar Todos los Datos</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
     </div>
     </main>
 
