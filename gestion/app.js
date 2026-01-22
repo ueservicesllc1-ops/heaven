@@ -562,6 +562,23 @@ function switchView(viewName) {
     if (targetView) {
         targetView.classList.add('active');
     }
+
+    // Load data specific to the view
+    switch (viewName) {
+        case 'messages':
+            loadMessages();
+            break;
+        case 'orders':
+            // Ensure orders are updated or re-render
+            renderOrders();
+            break;
+        case 'clients':
+            renderClients();
+            break;
+        case 'dashboard':
+            updateDashboard();
+            break;
+    }
 }
 
 // ==========================================
@@ -825,7 +842,8 @@ window.loadMessages = () => {
     }
 
     try {
-        const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+        // Obtenemos todos los mensajes sin ordenar por fecha en la query
+        const q = query(collection(db, 'messages'));
 
         // Usar onSnapshot para tiempo real
         messagesUnsubscribe = onSnapshot(q, (snapshot) => {
@@ -834,9 +852,24 @@ window.loadMessages = () => {
                 return;
             }
 
-            list.innerHTML = '';
+            // Convertir a array para ordenar en JS
+            let messages = [];
             snapshot.forEach(doc => {
-                const msg = doc.data();
+                messages.push({ id: doc.id, ...doc.data() });
+            });
+
+            // Ordenar por fecha descendente (más reciente primero)
+            messages.sort((a, b) => {
+                const getMillis = (msg) => {
+                    if (msg.createdAt?.toDate) return msg.createdAt.toDate().getTime();
+                    if (msg.timestamp?.toDate) return msg.timestamp.toDate().getTime();
+                    return 0; // Sin fecha
+                };
+                return getMillis(b) - getMillis(a);
+            });
+
+            list.innerHTML = '';
+            messages.forEach(msg => {
                 // Manejar tanto createdAt (nuevo) como timestamp (viejo)
                 let date = 'Reciente';
                 if (msg.createdAt && msg.createdAt.toDate) {
@@ -880,8 +913,8 @@ window.loadMessages = () => {
                     </div>
                     <div style="background:#1a1a1a; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message || 'Sin contenido'}</div>
                     <div style="margin-top:1rem; text-align:right;">
-                        ${!isRead ? `<button onclick="window.markAsRead('${doc.id}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Marcar como Leído</button>` : ''}
-                        <button onclick="deleteMessage('${doc.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
+                        ${!isRead ? `<button onclick="window.markAsRead('${msg.id}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Marcar como Leído</button>` : ''}
+                        <button onclick="deleteMessage('${msg.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
                     </div>
                 `;
                 list.appendChild(item);
