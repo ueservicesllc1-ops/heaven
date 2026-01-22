@@ -808,62 +808,99 @@ window.filterClients = () => {
 // ==========================================
 // CONTACT MESSAGES
 // ==========================================
-window.loadMessages = async () => {
+// ==========================================
+// CONTACT MESSAGES
+// ==========================================
+let messagesUnsubscribe = null;
+
+window.loadMessages = () => {
     const list = document.getElementById('messagesList');
     if (!list) return;
 
     list.innerHTML = '<p>Cargando mensajes...</p>';
 
+    // Si ya hay una suscripción activa, la cancelamos para no duplicar listeners
+    if (messagesUnsubscribe) {
+        messagesUnsubscribe();
+    }
+
     try {
         const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
 
-        if (snapshot.empty) {
-            list.innerHTML = '<p class="empty-state" style="text-align:center; padding:2rem; color:#888;">No hay mensajes nuevos.</p>';
-            return;
-        }
+        // Usar onSnapshot para tiempo real
+        messagesUnsubscribe = onSnapshot(q, (snapshot) => {
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="empty-state" style="text-align:center; padding:2rem; color:#888;">No hay mensajes nuevos.</p>';
+                return;
+            }
 
-        list.innerHTML = '';
-        snapshot.forEach(doc => {
-            const msg = doc.data();
-            const date = msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleString() : 'Reciente';
-            const isRead = msg.isRead || false;
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const msg = doc.data();
+                // Manejar tanto createdAt (nuevo) como timestamp (viejo)
+                let date = 'Reciente';
+                if (msg.createdAt && msg.createdAt.toDate) {
+                    date = msg.createdAt.toDate().toLocaleString();
+                } else if (msg.timestamp && msg.timestamp.toDate) {
+                    date = msg.timestamp.toDate().toLocaleString();
+                }
 
-            const item = document.createElement('div');
-            item.className = 'message-card';
+                // Normalizar isRead vs read
+                const isRead = (msg.isRead !== undefined) ? msg.isRead : (msg.read || false);
 
-            // Estilos dinámicos según leído/no leído
-            const cardStyle = isRead
-                ? 'background: #222; padding: 1.5rem; border-radius: 8px; border: 1px solid #333; margin-bottom: 1rem; opacity: 0.7;'
-                : 'background: #2a2a2a; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--gold-primary); margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
+                const item = document.createElement('div');
+                item.className = 'message-card';
 
-            item.style.cssText = cardStyle;
+                const cardStyle = isRead
+                    ? 'background: #222; padding: 1.5rem; border-radius: 8px; border: 1px solid #333; margin-bottom: 1rem; opacity: 0.7;'
+                    : 'background: #2a2a2a; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--gold-primary); margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
 
-            item.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; border-bottom:1px solid #444; padding-bottom:0.5rem;">
-                    <div>
-                        <h4 style="color:#fff; margin:0 0 0.25rem 0; font-size:1.1rem; display:flex; align-items:center;">
-                            ${isRead ? '<i data-lucide="check-circle" style="width:16px; color:#4caf50; margin-right:5px;"></i>' : '<i data-lucide="mail" style="width:16px; color:var(--gold-primary); margin-right:5px;"></i>'}
-                            ${msg.subject || 'Sin Asunto'}
-                        </h4>
-                        <span style="color:${isRead ? '#666' : 'var(--gold-primary)'}; font-size:0.9rem;">${msg.name} &lt;${msg.email}&gt;</span>
+                item.style.cssText = cardStyle;
+
+                // Determinar el icono y color
+                let iconHtml = isRead ? '<i data-lucide="check-circle" style="width:16px; color:#4caf50; margin-right:5px;"></i>' : '<i data-lucide="mail" style="width:16px; color:var(--gold-primary); margin-right:5px;"></i>';
+
+                // Si es solicitud de suscripción, usar color diferente
+                if (msg.type === 'subscription_request') {
+                    iconHtml = '<i data-lucide="coffee" style="width:16px; color:#e8c547; margin-right:5px;"></i>';
+                }
+
+                item.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; border-bottom:1px solid #444; padding-bottom:0.5rem;">
+                        <div>
+                            <h4 style="color:#fff; margin:0 0 0.25rem 0; font-size:1.1rem; display:flex; align-items:center;">
+                                ${iconHtml}
+                                ${msg.subject || (msg.type === 'subscription_request' ? 'Solicitud Suscripción' : 'Sin Asunto')}
+                            </h4>
+                            <span style="color:${isRead ? '#666' : 'var(--gold-primary)'}; font-size:0.9rem;">
+                                ${msg.name || 'Anónimo'} &lt;${msg.email || 'Sin email'}&gt;
+                            </span>
+                        </div>
+                        <span style="color:#666; font-size:0.85rem;">${date}</span>
                     </div>
-                    <span style="color:#666; font-size:0.85rem;">${date}</span>
-                </div>
-                <div style="background:#1a1a1a; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message}</div>
-                <div style="margin-top:1rem; text-align:right;">
-                    ${!isRead ? `<button onclick="window.markAsRead('${doc.id}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Marcar como Leído</button>` : ''}
-                    <button onclick="deleteMessage('${doc.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
-                </div>
-            `;
-            list.appendChild(item);
-        });
+                    <div style="background:#1a1a1a; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message || 'Sin contenido'}</div>
+                    <div style="margin-top:1rem; text-align:right;">
+                        ${!isRead ? `<button onclick="window.markAsRead('${doc.id}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Marcar como Leído</button>` : ''}
+                        <button onclick="deleteMessage('${doc.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
 
-        lucide.createIcons();
+            lucide.createIcons();
+        }, (error) => {
+            console.error("Error escuchando mensajes:", error);
+            // Si el error es de permisos, mostrar mensaje amigable
+            if (error.code === 'permission-denied') {
+                list.innerHTML = '<p class="error">No tienes permiso para ver los mensajes. Asegúrate de iniciar sesión.</p>';
+            } else {
+                list.innerHTML = `<p class="error">Error cargando mensajes: ${error.message}</p>`;
+            }
+        });
 
     } catch (e) {
         console.error("Error loading messages:", e);
-        list.innerHTML = '<p class="error">Error cargando mensajes. Verifica permisos.</p>';
+        list.innerHTML = '<p class="error">Error iniciando carga de mensajes.</p>';
     }
 };
 

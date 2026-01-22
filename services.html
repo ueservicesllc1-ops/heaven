@@ -777,8 +777,9 @@
                     email: email,
                     plan: plan,
                     type: 'subscription_request',
-                    message: `[Solicitud Suscripción] Iglesia: ${church}, Plan: ${plan}, Dirección: ${address}, Contacto: ${name}`,
-                    timestamp: serverTimestamp(),
+                    subject: `Solicitud de Suscripción - ${church}`, // Subject for Admin Panel
+                    message: `[Solicitud Suscripción] Iglesia: ${church}\nPlan: ${plan}\nDirección: ${address}\nContacto: ${name}\nEmail: ${email}\nTeléfono: ${document.getElementById('contactPhone').value}\n\nMensaje Adicional: ${document.getElementById('contactMessage').value}`,
+                    createdAt: serverTimestamp(), // Match 'createdAt' used in Admin Panel
                     read: false
                 });
                 alert('¡Gracias! Su solicitud ha sido enviada. Nos pondremos en contacto pronto.');
