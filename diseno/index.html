@@ -494,7 +494,6 @@
     <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
@@ -509,7 +508,6 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
@@ -528,37 +526,12 @@
             if (tabName === 'social') btns[3].classList.add('active');
         };
 
-        // Auth Check
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = '/gestion/index.html';
-                return;
-            }
-            // Check Permissions
-            const qPermissions = query(collection(db, 'settings'), where('type', '==', 'permissions'));
-            const snap = await getDocs(qPermissions);
-            let authorized = false;
-            if (!snap.empty) {
-                const emails = snap.docs[0].data().authorizedEmails || [];
-                if (emails.includes(user.email) || user.email === 'ueservicesllc1@gmail.com') {
-                    authorized = true;
-                }
-            } else if (user.email === 'ueservicesllc1@gmail.com') {
-                authorized = true;
-            }
-
-            if (!authorized) {
-                alert('No tienes permiso para acceder a esta área.');
-                window.location.href = '/gestion/index.html';
-                return;
-            }
-
-            // Load Data
-            loadBanners();
-            loadProducts();
-            loadInfo();
-            loadSocial();
-        });
+        // Load data directly - No Firebase auth required, only PIN verification
+        // Load Data
+        loadBanners();
+        loadProducts();
+        loadInfo();
+        loadSocial();
 
         // --- BANNERS LOGIC ---
         async function loadBanners() {
