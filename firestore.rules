@@ -2,22 +2,19 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // BANNERS: Todo el mundo puede verlos, solo usuarios autenticados pueden editar
+    // BANNERS: Acceso público (protegido por PIN en frontend)
     match /banners/{document} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow read, write: if true;
     }
 
-    // PRODUCTOS: Todo el mundo puede verlos, solo usuarios autenticados pueden editar
+    // PRODUCTOS: Acceso público (protegido por PIN en frontend)
     match /products/{document} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow read, write: if true;
     }
 
-    // CONFIGURACIÓN (Info y Redes): Todo el mundo puede verla, solo usuarios autenticados pueden editar
+    // CONFIGURACIÓN: Acceso público (protegido por PIN en frontend)
     match /config/{document} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow read, write: if true;
     }
     
     // MENSAJES DE CONTACTO: Todo el mundo puede CREAR, solo autenticados pueden LEER/EDITAR
