@@ -841,13 +841,23 @@ window.loadMessages = () => {
         messagesUnsubscribe();
     }
 
+    // Debug: Verificar Auth
+    console.log("Intentando cargar mensajes. Usuario actual:", currentUser);
+    if (!currentUser) {
+        console.warn("ADVERTENCIA: No hay usuario autenticado. Es probable que falle por permisos.");
+    }
+
     try {
         // Obtenemos todos los mensajes sin ordenar por fecha en la query
         const q = query(collection(db, 'messages'));
+        console.log("Query creada, esperando snapshot...");
 
         // Usar onSnapshot para tiempo real
         messagesUnsubscribe = onSnapshot(q, (snapshot) => {
+            console.log("Snapshot recibido. Cantidad de docs:", snapshot.size);
+
             if (snapshot.empty) {
+                console.log("El snapshot está vacío.");
                 list.innerHTML = '<p class="empty-state" style="text-align:center; padding:2rem; color:#888;">No hay mensajes nuevos.</p>';
                 return;
             }
@@ -855,7 +865,9 @@ window.loadMessages = () => {
             // Convertir a array para ordenar en JS
             let messages = [];
             snapshot.forEach(doc => {
-                messages.push({ id: doc.id, ...doc.data() });
+                const data = doc.data();
+                console.log("Mensaje procesado:", doc.id, data); // Log individual message data
+                messages.push({ id: doc.id, ...data });
             });
 
             // Ordenar por fecha descendente (más reciente primero)
@@ -898,12 +910,58 @@ window.loadMessages = () => {
                     iconHtml = '<i data-lucide="coffee" style="width:16px; color:#e8c547; margin-right:5px;"></i>';
                 }
 
+                // Contenido del mensaje: Diferente layout para suscripciones vs contacto normal
+                let contentHtml = '';
+
+                if (msg.type === 'subscription_request') {
+                    // Diseño estructurado para solicitudes de suscripción
+                    contentHtml = `
+                        <div style="background:#1a1a1a; padding:1.5rem; border-radius:8px; border:1px solid #333;">
+                            <h5 style="color:var(--gold-primary); margin:0 0 1rem 0; font-size:1.1em; border-bottom:1px solid #444; padding-bottom:0.5rem;">Detalles de la Solicitud</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                <div>
+                                    <strong style="color:#888; display:block; font-size:0.85em;">Iglesia / Organización</strong>
+                                    <span style="color:#fff; font-size:1.1em;">${msg.church || 'N/A'}</span>
+                                </div>
+                                <div>
+                                    <strong style="color:#888; display:block; font-size:0.85em;">Plan Seleccionado</strong>
+                                    <span style="color:#e8c547; font-weight:bold; font-size:1.1em;">${msg.plan || 'N/A'}</span>
+                                </div>
+                                <div>
+                                    <strong style="color:#888; display:block; font-size:0.85em;">Persona de Contacto</strong>
+                                    <span style="color:#ddd;">${msg.name || 'N/A'}</span>
+                                </div>
+                                <div>
+                                    <strong style="color:#888; display:block; font-size:0.85em;">Email</strong>
+                                    <a href="mailto:${msg.email}" style="color:#4caf50; text-decoration:none;">${msg.email || 'N/A'}</a>
+                                </div>
+                                <div>
+                                    <strong style="color:#888; display:block; font-size:0.85em;">Teléfono</strong>
+                                    <a href="tel:${msg.phone}" style="color:#4caf50; text-decoration:none;">${msg.phone || 'N/A'}</a>
+                                </div>
+                                <div style="grid-column: 1 / -1;">
+                                    <strong style="color:#888; display:block; font-size:0.85em;">Dirección de Entrega</strong>
+                                    <span style="color:#ddd;">${msg.address || 'N/A'}</span>
+                                </div>
+                            </div>
+                            ${msg.message ? `
+                            <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px dashed #444;">
+                                <strong style="color:#888; display:block; font-size:0.85em; margin-bottom:0.5rem;">Mensaje Original / Notas:</strong>
+                                <div style="color:#ccc; font-style:italic; line-height:1.5;">${msg.message.replace(/\n/g, '<br>')}</div>
+                            </div>` : ''}
+                        </div>
+                    `;
+                } else {
+                    // Diseño estándar para mensajes de contacto
+                    contentHtml = `<div style="background:#1a1a1a; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message || 'Sin contenido'}</div>`;
+                }
+
                 item.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; border-bottom:1px solid #444; padding-bottom:0.5rem;">
                         <div>
                             <h4 style="color:#fff; margin:0 0 0.25rem 0; font-size:1.1rem; display:flex; align-items:center;">
                                 ${iconHtml}
-                                ${msg.subject || (msg.type === 'subscription_request' ? 'Solicitud Suscripción' : 'Sin Asunto')}
+                                ${msg.subject || 'Sin Asunto'}
                             </h4>
                             <span style="color:${isRead ? '#666' : 'var(--gold-primary)'}; font-size:0.9rem;">
                                 ${msg.name || 'Anónimo'} &lt;${msg.email || 'Sin email'}&gt;
@@ -911,7 +969,7 @@ window.loadMessages = () => {
                         </div>
                         <span style="color:#666; font-size:0.85rem;">${date}</span>
                     </div>
-                    <div style="background:#1a1a1a; padding:1rem; border-radius:4px; color:#ccc; line-height:1.6; white-space:pre-wrap;">${msg.message || 'Sin contenido'}</div>
+                    ${contentHtml}
                     <div style="margin-top:1rem; text-align:right;">
                         ${!isRead ? `<button onclick="window.markAsRead('${msg.id}')" style="background:#333; color:white; border:1px solid #555; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">Marcar como Leído</button>` : ''}
                         <button onclick="deleteMessage('${msg.id}')" style="background:rgba(220, 53, 69, 0.2); color:#dc3545; border:1px solid #dc3545; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;">Eliminar</button>
