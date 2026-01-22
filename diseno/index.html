@@ -12,11 +12,132 @@
             padding: 2rem;
             background: var(--bg-primary);
             color: white;
+            overflow: hidden;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .container.unlocked {
+            filter: none;
+            pointer-events: auto;
+        }
+
+        /* PIN Modal */
+        .pin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .pin-modal {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .pin-modal h2 {
+            color: var(--gold-primary);
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .pin-modal p {
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        .pin-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            background: #222;
+            border: 2px solid #444;
+            border-radius: 8px;
+            color: white;
+            letter-spacing: 0.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .pin-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .pin-input.error {
+            border-color: #ff4444;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .pin-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gold-primary);
+            border: none;
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pin-submit:hover {
+            background: var(--gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .pin-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pin-error {
+            color: #ff4444;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .pin-error.show {
+            display: block;
         }
 
         .banner-item {
@@ -102,6 +223,19 @@
 </head>
 
 <body>
+    <!-- PIN Verification Modal -->
+    <div class="pin-overlay" id="pinOverlay">
+        <div class="pin-modal">
+            <i data-lucide="lock"
+                style="width: 64px; height: 64px; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+            <h2>Acceso Restringido</h2>
+            <p>Ingresa el PIN para acceder al Panel de Diseño</p>
+            <input type="password" class="pin-input" id="pinInput" placeholder="••••" maxlength="4" autocomplete="off">
+            <button class="pin-submit" id="pinSubmit">Desbloquear</button>
+            <p class="pin-error" id="pinError">PIN incorrecto. Intenta nuevamente.</p>
+        </div>
+    </div>
+
     <div class="container">
         <a href="/gestion/index.html" class="back-link"><i data-lucide="arrow-left"></i> Volver al Dashboard</a>
 
@@ -299,6 +433,63 @@
             </section>
         </div>
     </div> <!-- End Container -->
+
+    <!-- PIN Verification Script -->
+    <script>
+        const CORRECT_PIN = '1619';
+        const pinOverlay = document.getElementById('pinOverlay');
+        const pinInput = document.getElementById('pinInput');
+        const pinSubmit = document.getElementById('pinSubmit');
+        const pinError = document.getElementById('pinError');
+        const container = document.querySelector('.container');
+
+        // Check if PIN was already verified in this session
+        const pinVerified = sessionStorage.getItem('designPinVerified');
+        if (pinVerified === 'true') {
+            unlockPage();
+        } else {
+            // Focus on input
+            setTimeout(() => pinInput.focus(), 100);
+        }
+
+        // Verify PIN function
+        function verifyPin() {
+            const enteredPin = pinInput.value;
+
+            if (enteredPin === CORRECT_PIN) {
+                // Correct PIN
+                sessionStorage.setItem('designPinVerified', 'true');
+                unlockPage();
+            } else {
+                // Wrong PIN
+                pinError.classList.add('show');
+                pinInput.classList.add('error');
+                pinInput.value = '';
+
+                setTimeout(() => {
+                    pinError.classList.remove('show');
+                    pinInput.classList.remove('error');
+                }, 2000);
+            }
+        }
+
+        function unlockPage() {
+            pinOverlay.style.opacity = '0';
+            setTimeout(() => {
+                pinOverlay.style.display = 'none';
+                container.classList.add('unlocked');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Event listeners
+        pinSubmit.addEventListener('click', verifyPin);
+        pinInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                verifyPin();
+            }
+        });
+    </script>
 
     <!-- Firebase -->
     <script type="module">
