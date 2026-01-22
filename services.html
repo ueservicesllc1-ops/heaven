@@ -318,13 +318,16 @@
             }
 
             .church-pricing-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 2rem;
+                display: flex;
+                flex-wrap: wrap;
                 justify-content: center;
+                gap: 2rem;
+                margin-top: 3rem;
             }
 
             .price-card {
+                flex: 1 1 300px;
+                max-width: 380px;
                 background: white;
                 border-radius: 16px;
                 overflow: hidden;
@@ -669,25 +672,42 @@
             <span class="close-modal" onclick="closeSubscribeModal()">&times;</span>
             <h2 style="color: var(--gold-primary); font-family: 'Playfair Display', serif; margin-bottom: 1rem;">
                 Solicitar Suscripción</h2>
-            <p id="modalPlanName" style="color: #ccc; margin-bottom: 1.5rem;"></p>
+            <p style="color: #ccc; margin-bottom: 1.5rem; font-size: 0.9rem;">Complete los datos para iniciar su
+                suscripción</p>
+
             <form id="subscribeForm">
-                <input type="hidden" id="selectedPlan">
                 <div class="form-group">
-                    <label>Nombre de la Iglesia / Contacto</label>
-                    <input type="text" id="contactName" required placeholder="Ej. Iglesia Vida Nueva">
+                    <label>Nombre del Contacto</label>
+                    <input type="text" id="contactName" required placeholder="Su nombre completo">
                 </div>
+
                 <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="tel" id="contactPhone" required placeholder="(555) 123-4567">
+                    <label>Nombre de la Iglesia</label>
+                    <input type="text" id="churchName" required placeholder="Nombre de la congregación">
                 </div>
+
+                <div class="form-group">
+                    <label>Dirección de Entrega</label>
+                    <input type="text" id="churchAddress" required placeholder="Dirección completa de la iglesia">
+                </div>
+
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" id="contactEmail" required placeholder="contacto@iglesia.com">
                 </div>
+
                 <div class="form-group">
-                    <label>Mensaje Adicional (Opcional)</label>
-                    <textarea id="contactMessage" rows="3"></textarea>
+                    <label>Plan de Suscripción</label>
+                    <select id="selectedPlan" required
+                        style="width: 100%; padding: 0.8rem; background: #2a2a2a; border: 1px solid #444; border-radius: 6px; color: white; font-family: 'Inter', sans-serif;">
+                        <option value="Plan Básico">Plan Básico (48 K-Cups)</option>
+                        <option value="Plan Medio">Plan Medio (72 K-Cups)</option>
+                        <option value="Plan Estándar">Plan Estándar (96 K-Cups)</option>
+                        <option value="Plan Grande">Plan Grande (144 K-Cups)</option>
+                        <option value="Plan Extra">Plan Extra (192 K-Cups)</option>
+                    </select>
                 </div>
+
                 <button type="submit" class="btn-submit">Enviar Solicitud</button>
             </form>
         </div>
@@ -713,8 +733,15 @@
 
         // Modal Logic
         window.openSubscribeModal = (planName) => {
-            document.getElementById('modalPlanName').innerText = `Interesado en: ${planName}`;
-            document.getElementById('selectedPlan').value = planName;
+            // Clean plan name to match dropdown values (remove "Popular" text if present)
+            let cleanName = planName.replace(" (Popular)", "");
+
+            const select = document.getElementById('selectedPlan');
+            select.value = cleanName;
+
+            // If the value wasn't found (e.g. slight mismatch), default to Basic
+            if (!select.value) select.value = "Plan Básico";
+
             document.getElementById('subscribeModal').style.display = 'flex';
         };
 
@@ -736,14 +763,21 @@
             btn.innerText = 'Enviando...';
             btn.disabled = true;
 
+            const name = document.getElementById('contactName').value;
+            const church = document.getElementById('churchName').value;
+            const address = document.getElementById('churchAddress').value; // Added Address
+            const email = document.getElementById('contactEmail').value;
+            const plan = document.getElementById('selectedPlan').value;
+
             try {
                 await addDoc(collection(db, 'messages'), {
-                    name: document.getElementById('contactName').value,
-                    phone: document.getElementById('contactPhone').value,
-                    email: document.getElementById('contactEmail').value,
-                    message: `[Solicitud de Suscripción] Plan: ${document.getElementById('selectedPlan').value}. Nota: ${document.getElementById('contactMessage').value}`,
+                    name: name,
+                    church: church,
+                    address: address, // Save address
+                    email: email,
+                    plan: plan,
                     type: 'subscription_request',
-                    plan: document.getElementById('selectedPlan').value,
+                    message: `[Solicitud Suscripción] Iglesia: ${church}, Plan: ${plan}, Dirección: ${address}, Contacto: ${name}`,
                     timestamp: serverTimestamp(),
                     read: false
                 });
